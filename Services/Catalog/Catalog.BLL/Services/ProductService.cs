@@ -33,7 +33,7 @@ namespace Catalog.BLL.Services
         }
         public async Task Save(ProductDTO productDTO)
         {
-            if(productDTO.IsNew)
+            if(productDTO.Id == Guid.Empty)
             {
                 var entity = mapper.Map<Product>(productDTO);
                 unitOfWork.ProductRepository.InsertOrUpdate(entity);

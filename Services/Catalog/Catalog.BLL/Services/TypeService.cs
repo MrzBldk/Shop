@@ -12,22 +12,22 @@ namespace Catalog.BLL.Services
 
         public async Task<List<TypeDTO>> Get()
         {
-            List<Type> Types = await unitOfWork.TypeRepository.Find();
-            return mapper.Map<List<TypeDTO>>(Types);
+            List<Type> types = await unitOfWork.TypeRepository.Find();
+            return mapper.Map<List<TypeDTO>>(types);
         }
         public async Task<TypeDTO> GetById(Guid id)
         {
-            Type Type = await unitOfWork.TypeRepository.FindById(id);
-            return mapper.Map<TypeDTO>(Type);
+            Type type = await unitOfWork.TypeRepository.FindById(id);
+            return mapper.Map<TypeDTO>(type);
         }
         public async Task<TypeDTO> GetLast()
         {
-            Type Type = await unitOfWork.TypeRepository.FindLast();
-            return mapper.Map<TypeDTO>(Type);
+            Type type = await unitOfWork.TypeRepository.FindLast();
+            return mapper.Map<TypeDTO>(type);
         }
         public async Task Save(TypeDTO typeDTO)
         {
-            if (typeDTO.IsNew)
+            if (typeDTO.Id == Guid.Empty)
             {
                 var entity = mapper.Map<Type>(typeDTO);
                 unitOfWork.TypeRepository.InsertOrUpdate(entity);

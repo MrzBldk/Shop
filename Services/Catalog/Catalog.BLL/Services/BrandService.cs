@@ -12,22 +12,22 @@ namespace Catalog.BLL.Services
 
         public async Task<List<BrandDTO>> Get()
         {
-            List<Brand> Brands = await unitOfWork.BrandRepository.Find();
-            return mapper.Map<List<BrandDTO>>(Brands);
+            List<Brand> brands = await unitOfWork.BrandRepository.Find();
+            return mapper.Map<List<BrandDTO>>(brands);
         }
         public async Task<BrandDTO> GetById(Guid id)
         {
-            Brand Brand = await unitOfWork.BrandRepository.FindById(id);
-            return mapper.Map<BrandDTO>(Brand);
+            Brand brand = await unitOfWork.BrandRepository.FindById(id);
+            return mapper.Map<BrandDTO>(brand);
         }
         public async Task<BrandDTO> GetLast()
         {
-            Brand Brand = await unitOfWork.BrandRepository.FindLast();
-            return mapper.Map<BrandDTO>(Brand);
+            Brand brand = await unitOfWork.BrandRepository.FindLast();
+            return mapper.Map<BrandDTO>(brand);
         }
         public async Task Save(BrandDTO brandDTO)
         {
-            if (brandDTO.IsNew)
+            if (brandDTO.Id == Guid.Empty)
             {
                 var entity = mapper.Map<Brand>(brandDTO);
                 unitOfWork.BrandRepository.InsertOrUpdate(entity);

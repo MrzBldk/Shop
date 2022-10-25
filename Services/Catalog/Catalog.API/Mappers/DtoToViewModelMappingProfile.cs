@@ -18,6 +18,6 @@ namespace Catalog.API.Mappers
             CreateMap<TypeDTO, TypeViewModel>();
         }
 
-        public override string ProfileName => "DtoToViewModelMappingProfile";
+        public override string ProfileName => nameof(DtoToViewModelMappingProfile);
     }
 }

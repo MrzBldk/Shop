@@ -14,6 +14,6 @@ namespace Catalog.BLL.Mappers
             CreateMap<TypeDTO, Type>();
         }
 
-        public override string ProfileName => "DtoToDomainMappingProfile";
+        public override string ProfileName => nameof(DtoToDomainMappingProfile);
     }
 }
