@@ -1,0 +1,25 @@
+version: "3.8"
+
+services:
+  catalog.api:
+    image: ${DOCKER_REGISTRY-}catalogapi
+    ports:
+      - "8000:443"
+    build:
+      context: .
+      dockerfile: Services/Catalog/Catalog.API/Dockerfile
+    depends_on:
+      - catalogdb
+
+  catalogdb:
+    image: mcr.microsoft.com/mssql/server:2017-latest 
+    environment:
+      - SA_PASSWORD=Pass@word
+      - ACCEPT_EULA=Y
+    ports:
+      - "1433:1433"
+    volumes:
+      - catalog-data:/var/opt/mssql/data
+  
+volumes:
+  catalog-data:
