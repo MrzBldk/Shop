@@ -5,14 +5,12 @@ using Catalog.API.Models.Product;
 using Catalog.BLL.Mappers;
 using Catalog.BLL.Services;
 using Catalog.DAL.Context;
-using Catalog.DAL.Entities;
-using Catalog.DAL.Helpers;
 using Catalog.DAL.Repositories;
 using Catalog.DAL.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Moq;
-using Type = Catalog.DAL.Entities.Type;
+using static Catalog.UnitTest.GetFakeProductsUtil;
 
 namespace Catalog.UnitTests
 {
@@ -20,21 +18,12 @@ namespace Catalog.UnitTests
     {
 
         private readonly DbContextOptions<CatalogContext> _dbOptions;
-        private readonly Guid _typeA;
-        private readonly Guid _typeB;
-        private readonly Guid _brandA;
-        private readonly Guid _brandB;
-        MapperConfiguration _mapperConfiguration;
+        private readonly MapperConfiguration _mapperConfiguration;
 
         public ProductControllerTests()
         {
             _dbOptions = new DbContextOptionsBuilder<CatalogContext>().UseInMemoryDatabase(databaseName: "in-memory").Options;
             using CatalogContext dbContext = new(_dbOptions);
-
-            _typeA = Guid.NewGuid();
-            _typeB = Guid.NewGuid();
-            _brandA = Guid.NewGuid();
-            _brandB = Guid.NewGuid();
 
             dbContext.Database.EnsureDeleted();
             dbContext.Database.EnsureCreated();
@@ -66,7 +55,7 @@ namespace Catalog.UnitTests
             ProductRepository productRepository = new(catalogContext);
             Mapper mapper = new(_mapperConfiguration);
 
-            var mock = new Mock<IUnitOfWork>();
+            Mock<IUnitOfWork> mock = new();
             mock.Setup(unit => unit.ProductRepository).Returns(productRepository);
 
             ProductService productService = new(mock.Object, mapper);
@@ -97,7 +86,7 @@ namespace Catalog.UnitTests
 
             ProductService productService = new(mock.Object, mapper);
             ProductController productController = new(mapper, productService);
-            var actionResult = await productController.Get(0, 0, new() { Brands = new[] { _brandA } });
+            var actionResult = await productController.Get(0, 0, new() { Brands = new[] { Guid.Parse("a94e48d7-951d-499c-9462-7df138ab34c9") } });
 
             //Assert
             Assert.IsType<OkObjectResult>(actionResult);
@@ -123,7 +112,7 @@ namespace Catalog.UnitTests
 
             ProductService productService = new(mock.Object, mapper);
             ProductController productController = new(mapper, productService);
-            var actionResult = await productController.Get(0, 0, new() { Types = new[] { _typeA } });
+            var actionResult = await productController.Get(0, 0, new() { Types = new[] { Guid.Parse("fafbdce2-5e5d-4db4-ab7d-6553e10140fb") } });
 
             //Assert
             Assert.IsType<OkObjectResult>(actionResult);
@@ -131,99 +120,6 @@ namespace Catalog.UnitTests
             Assert.NotEmpty(actualProducts);
             Assert.Equal(expectedLength, actualProducts.Count);
             mock.Verify(unit => unit.ProductRepository, Times.Once());
-        }
-
-
-
-        private List<Product> GetFakeProducts()
-        {
-
-            Brand brandA = new()
-            {
-                Id = _brandA,
-                Name = "A",
-                Description = "Brand A"
-            };
-            Brand brandB = new()
-            {
-                Id = _brandB,
-                Name = "B",
-                Description = "Brand A"
-            };
-            Type typeA = new()
-            {
-                Id = _typeA,
-                Name = "A",
-            };
-            Type typeB = new()
-            {
-                Id = _typeB,
-                Name = "B",
-            };
-
-            return new()
-            {
-                new()
-                {
-                    Name = "A",
-                    Id = Guid.Empty,
-                    Description = "Item A",
-                    Price = 1,
-                    PicturesUris = Array.Empty<string>(),
-                    AvailableStock = 1,
-                    IsArchived = false,
-                    Brand = brandA,
-                    Type = typeA,
-                    BrandId = _brandA,
-                    TypeId = _typeA,
-                    StoreId = Guid.Empty
-                },
-                new()
-                {
-                    Name = "B",
-                    Id = Guid.Empty,
-                    Description = "Item B",
-                    Price = 2,
-                    PicturesUris = Array.Empty<string>(),
-                    AvailableStock = 2,
-                    IsArchived = false,
-                    Brand = brandA,
-                    Type = typeB,
-                    BrandId = _brandA,
-                    TypeId = _typeB,
-                    StoreId = Guid.Empty,
-                },
-                new()
-                {
-                    Name = "C",
-                    Id = Guid.Empty,
-                    Description = "Item C",
-                    Price = 3,
-                    PicturesUris = Array.Empty<string>(),
-                    AvailableStock = 3,
-                    IsArchived = false,
-                    Brand = brandB,
-                    Type = typeA,
-                    BrandId = _brandB,
-                    TypeId = _typeA,
-                    StoreId = Guid.Empty,
-                },
-                new()
-                {
-                    Name = "D",
-                    Id = Guid.Empty,
-                    Description = "Item D",
-                    Price = 4,
-                    PicturesUris = Array.Empty<string>(),
-                    AvailableStock = 4,
-                    IsArchived = false,
-                    Brand = brandB,
-                    Type = typeB,
-                    BrandId = _brandB,
-                    TypeId = _typeB,
-                    StoreId = Guid.Empty,
-                }
-            };
         }
     }
 }
