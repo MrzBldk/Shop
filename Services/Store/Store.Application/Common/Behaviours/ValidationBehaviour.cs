@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
 using MediatR;
+using ValidationException = Store.Application.Common.Exceptions.ValidationException;
 
 namespace Store.Application.Common.Behaviours
 {

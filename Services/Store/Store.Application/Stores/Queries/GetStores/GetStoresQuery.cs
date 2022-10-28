@@ -6,9 +6,9 @@ using Store.Application.Common.Interfaces;
 
 namespace Store.Application.Stores.Queries.GetStores
 {
-    public record GetStoresQuery : IRequest<StoreViewModel>;
+    public record GetStoresQuery : IRequest<StoresViewModel>;
 
-    public class GetStoresQueryHandler : IRequestHandler<GetStoresQuery, StoreViewModel>
+    public class GetStoresQueryHandler : IRequestHandler<GetStoresQuery, StoresViewModel>
     {
         private readonly IApplicationDbContext _context;
         private readonly IMapper _mapper;
@@ -19,7 +19,7 @@ namespace Store.Application.Stores.Queries.GetStores
             _mapper = mapper;
         }
 
-        public async Task<StoreViewModel> Handle(GetStoresQuery request, CancellationToken cancellationToken)
+        public async Task<StoresViewModel> Handle(GetStoresQuery request, CancellationToken cancellationToken)
         {
             return new()
             {

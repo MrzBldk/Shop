@@ -1,6 +1,6 @@
 ﻿using Store.Application.Common.Mappings;
 
-namespace Store.Application.Stores.Queries.GetStores
+namespace Store.Application.Stores.Queries
 {
     public class StoreDTO : IMapFrom<Domain.Entities.Store>
     {

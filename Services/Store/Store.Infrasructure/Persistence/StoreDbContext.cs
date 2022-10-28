@@ -21,6 +21,7 @@ namespace Store.Infrasructure.Persistence
         {
             _mediator = mediator;
             _auditableEntitySaveChangesInterceptor = auditableEntitySaveChangesInterceptor;
+            Database.EnsureCreated();
         }
 
         public DbSet<Domain.Entities.Store> Stores => Set<Domain.Entities.Store>();

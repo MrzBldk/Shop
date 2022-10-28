@@ -2,7 +2,7 @@
 using Store.Application.Common.Mappings;
 using Store.Domain.Entities;
 
-namespace Store.Application.Stores.Queries.GetStores
+namespace Store.Application.Stores.Queries
 {
     public class StoreSectionDTO : IMapFrom<StoreSection>
     {
