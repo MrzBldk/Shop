@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Store.Application.Stores.Commands.CreateShop;
+using Store.Application.Stores.Commands.CreateStore;
 using Store.Application.Stores.Commands.DeleteStore;
 using Store.Application.Stores.Commands.UpdateStore;
 using Store.Application.Stores.Queries.GetStore;

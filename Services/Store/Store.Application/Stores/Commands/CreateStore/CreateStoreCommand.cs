@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Store.Application.Common.Interfaces;
 
-namespace Store.Application.Stores.Commands.CreateShop
+namespace Store.Application.Stores.Commands.CreateStore
 {
     public record CreateStoreCommand : IRequest<Guid>
     {
