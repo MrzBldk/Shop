@@ -33,7 +33,9 @@ namespace Store.Application.UnitTests.Common.Mappings
         {
             var instance = GetInstanceOf(source);
 
-            _mapper.Map(instance, source, destination);
+            var mapped = _mapper.Map(instance, source, destination);
+
+            Assert.That(mapped, Is.TypeOf(destination));
         }
 
         private object GetInstanceOf(Type type)
