@@ -21,5 +21,26 @@ services:
     volumes:
       - catalog-data:/var/opt/mssql/data
   
+  store.api:
+    image: ${DOCKER_REGISTRY-}storeapi
+    ports:
+      - "8001:443"
+    build:
+      context: .
+      dockerfile: Services/Store/Store.API/Dockerfile
+    depends_on:
+      - storedb
+
+  storedb:
+    image: mcr.microsoft.com/mssql/server:2017-latest 
+    environment:
+      - SA_PASSWORD=Pass@word
+      - ACCEPT_EULA=Y
+    ports:
+      - "1434:1433"
+    volumes:
+      - store-data:/var/opt/mssql/data
+
 volumes:
   catalog-data:
+  store-data:
