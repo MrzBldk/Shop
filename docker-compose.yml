@@ -41,6 +41,27 @@ services:
     volumes:
       - store-data:/var/opt/mssql/data
 
+  ordering.api:
+    image: ${DOCKER_REGISTRY-}orderingapi
+    ports:
+      - "8002:443"
+    build:
+      context: .
+      dockerfile: Services/Ordering/Ordering.API/Dockerfile
+    depends_on:
+     - orderingdb
+     
+  orderingdb:
+    image: mcr.microsoft.com/mssql/server:2017-latest 
+    environment:
+      - SA_PASSWORD=Pass@word
+      - ACCEPT_EULA=Y
+    ports:
+      - "1435:1433"
+    volumes:
+      - ordering-data:/var/opt/mssql/data
+
 volumes:
   catalog-data:
   store-data:
+  ordering-data:
