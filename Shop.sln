@@ -46,7 +46,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ordering.API", "Services\Or
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{93D4D637-E061-49FE-8463-057F0E1BB1B5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ordering.UseCases.Tests", "Services\Ordering\Tests\Ordering.UseCases.Tests\Ordering.UseCases.Tests.csproj", "{2D117BC7-FDAA-4C44-A45F-D6B0BCA9084A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ordering.UseCases.Tests", "Services\Ordering\Tests\Ordering.UseCases.Tests\Ordering.UseCases.Tests.csproj", "{2D117BC7-FDAA-4C44-A45F-D6B0BCA9084A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Basket", "Basket", "{A5E83696-E271-4BEC-ADA8-B8E2FDB116AD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -138,6 +140,7 @@ Global
 		{72304314-0CA9-4304-8E1D-77B899D07BDC} = {C3E339E3-6567-4FA3-A17B-7507A3DA90D3}
 		{93D4D637-E061-49FE-8463-057F0E1BB1B5} = {C3E339E3-6567-4FA3-A17B-7507A3DA90D3}
 		{2D117BC7-FDAA-4C44-A45F-D6B0BCA9084A} = {93D4D637-E061-49FE-8463-057F0E1BB1B5}
+		{A5E83696-E271-4BEC-ADA8-B8E2FDB116AD} = {59B329D6-C10E-4CC9-BFB8-D070BB955557}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C669F362-4C35-47DD-9273-1E5A9A064624}
