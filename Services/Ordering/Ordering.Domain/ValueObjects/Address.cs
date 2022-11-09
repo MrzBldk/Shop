@@ -2,49 +2,24 @@
 {
     public class Address
     {
-        private string _street;
-        private string _city;
-        private string _state;
-        private string _country;
-        private string _zipCode;
+        public string Street { get; }
+        public string City { get; }
+        public string State { get; }
+        public string Country { get; }
+        public string ZipCode { get; }
 
         public Address(string street, string city, string state, string country, string zipCode)
         {
-            _street = !string.IsNullOrWhiteSpace(street) ? street : throw new DomainException($"Invalid {nameof(street)}");
-            _city = !string.IsNullOrWhiteSpace(city) ? city : throw new DomainException($"Invalid {nameof(city)}");
-            _state = !string.IsNullOrWhiteSpace(state) ? state : throw new DomainException($"Invalid {nameof(state)}");
-            _country = !string.IsNullOrWhiteSpace(country) ? country : throw new DomainException($"Invalid {nameof(country)}");
-            _zipCode = !string.IsNullOrWhiteSpace(zipCode) ? zipCode : throw new DomainException($"Invalid {nameof(zipCode)}");
-        }
-
-        public string GetStreet()
-        {
-            return _street;
-        }
-
-        public string GetCity()
-        {
-            return _city;
-        }
-
-        public string GetState()
-        {
-            return _state;
-        }
-
-        public string GetCountry()
-        {
-            return _country;
-        }
-
-        public string GetZipCode()
-        {
-            return _zipCode;
+            Street = !string.IsNullOrWhiteSpace(street) ? street : throw new DomainException($"Invalid {nameof(street)}");
+            City = !string.IsNullOrWhiteSpace(city) ? city : throw new DomainException($"Invalid {nameof(city)}");
+            State = !string.IsNullOrWhiteSpace(state) ? state : throw new DomainException($"Invalid {nameof(state)}");
+            Country = !string.IsNullOrWhiteSpace(country) ? country : throw new DomainException($"Invalid {nameof(country)}");
+            ZipCode = !string.IsNullOrWhiteSpace(zipCode) ? zipCode : throw new DomainException($"Invalid {nameof(zipCode)}");
         }
 
         public override string ToString()
         {
-            return $"{_country}. {_state}, {_city}, {_street}, {_zipCode}";
+            return $"{Country}, {State}, {City}, {Street}, {ZipCode}";
         }
 
         public override bool Equals(object obj)
@@ -58,16 +33,16 @@
             if (ReferenceEquals(this, obj))
                 return true;
 
-            return _street == other._street &&
-                    _city == other._city &&
-                    _state == other._state &&
-                    _country == other._country &&
-                    _zipCode == other._zipCode;
+            return Street == other.Street &&
+                    City == other.City &&
+                    State == other.State &&
+                    Country == other.Country &&
+                    ZipCode == other.ZipCode;
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(_street, _city, _state, _country, _zipCode);
+            return HashCode.Combine(Street, City, State, Country, ZipCode);
         }
     }
 }

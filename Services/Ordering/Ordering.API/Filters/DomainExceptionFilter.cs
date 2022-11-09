@@ -11,25 +11,11 @@ namespace Ordering.API.Filters
     {
         public void OnException(ExceptionContext context)
         {
-            if (context.Exception is DomainException domainException)
+            if (context.Exception is DomainException ||
+                context.Exception is ApplicationException ||
+                context.Exception is InfrastructureException)
             {
-                string json = JsonConvert.SerializeObject(domainException.Message);
-
-                context.Result = new BadRequestObjectResult(json);
-                context.HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-            }
-
-            if (context.Exception is ApplicationException applicationException)
-            {
-                string json = JsonConvert.SerializeObject(applicationException.Message);
-
-                context.Result = new BadRequestObjectResult(json);
-                context.HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-            }
-
-            if (context.Exception is InfrastructureException infrastructureException)
-            {
-                string json = JsonConvert.SerializeObject(infrastructureException.Message);
+                string json = JsonConvert.SerializeObject(context.Exception.Message);
 
                 context.Result = new BadRequestObjectResult(json);
                 context.HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;

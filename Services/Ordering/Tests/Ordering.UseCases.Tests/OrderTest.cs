@@ -2,6 +2,7 @@
 using Ordering.Application.Commands.AddOrderItem;
 using Ordering.Application.Commands.CreateOrder;
 using Ordering.Application.Repositories;
+using Ordering.Domain.ValueObjects;
 
 namespace Ordering.UseCases.Tests
 {
@@ -25,10 +26,11 @@ namespace Ordering.UseCases.Tests
         [TestCase("c", "c", "c", "c", "c")]
         public async Task Create_Valid_Order(string street, string city, string state, string country, string zipCode)
         {
-            var expectedAdress = $"{country}. {state}, {city}, {street}, {zipCode}";
+            var expectedAdress = $"{country}, {state}, {city}, {street}, {zipCode}";
 
             CreateOrderUseCase useCase = new(_orderWriteOnlyRepository);
-            CreateOrderResult result = await useCase.Execute(street, city, state, country, zipCode);
+            Address address = new(street, city, state, country, zipCode);
+            CreateOrderResult result = await useCase.Execute(address);
 
             Assert.Multiple(() =>
             {

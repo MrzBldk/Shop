@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Ordering.Application.Commands.CreateOrder;
+using Ordering.Domain.ValueObjects;
 
 namespace Ordering.API.UseCase.CreateOrder
 {
@@ -16,8 +17,9 @@ namespace Ordering.API.UseCase.CreateOrder
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] CreateOrderRequest createOrderRequest)
         {
-            CreateOrderResult createOrderResult = await _createOrderUseCase.Execute(createOrderRequest.Street, createOrderRequest.City,
+            Address address = new(createOrderRequest.Street, createOrderRequest.City,
                 createOrderRequest.State, createOrderRequest.Country, createOrderRequest.ZipCode);
+            CreateOrderResult createOrderResult = await _createOrderUseCase.Execute(address);
             
             return Ok(createOrderResult.Order.Id);
         }

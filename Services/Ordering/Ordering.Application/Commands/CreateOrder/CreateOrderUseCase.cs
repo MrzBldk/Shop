@@ -13,9 +13,8 @@ namespace Ordering.Application.Commands.CreateOrder
             _orderWriteOnlyRepository = orderWriteOnlyRepository;
         }
 
-        public async Task<CreateOrderResult> Execute(string street, string city, string state, string country, string zipCode)
+        public async Task<CreateOrderResult> Execute(Address address)
         {
-            Address address = new(street, city, state, country, zipCode);
             Order order = new(address);
             
             await _orderWriteOnlyRepository.Add(order);

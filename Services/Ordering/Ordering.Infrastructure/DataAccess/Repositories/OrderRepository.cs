@@ -49,11 +49,11 @@ namespace Ordering.Infrastructure.DataAccess.Repositories
             {
                 Id = order.Id,
                 OrderDate = order.OrderDate,
-                Street = order.Address.GetStreet(),
-                City = order.Address.GetCity(),
-                State = order.Address.GetState(),
-                ZipCode = order.Address.GetZipCode(),
-                Country = order.Address.GetCountry()
+                Street = order.Address.Street,
+                City = order.Address.City,
+                State = order.Address.State,
+                ZipCode = order.Address.ZipCode,
+                Country = order.Address.Country
             };
 
             _context.Orders.Add(orderEntity);
@@ -77,11 +77,11 @@ namespace Ordering.Infrastructure.DataAccess.Repositories
 
         public async Task Delete(Order order)
         {
-            string deleteSQL =
-                    @"DELETE FROM OrderItems WHERE OrderId = {0};
-                      DELETE FROM Orders WHERE Id = {0};";
-
-            await _context.Database.ExecuteSqlRawAsync(deleteSQL, order.Id);
+            Entities.Order orderEntity = await _context.Orders.FindAsync(order.Id);
+            if (orderEntity is null)
+                throw new InfrastructureException($"Order with id {order.Id} not found");
+            _context.Orders.Remove(orderEntity);
+            await _context.SaveChangesAsync();
         }
     }
 }
