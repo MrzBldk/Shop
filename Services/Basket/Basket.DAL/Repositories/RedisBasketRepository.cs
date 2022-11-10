@@ -10,10 +10,10 @@ namespace Basket.DAL.Repositories
         private readonly ConnectionMultiplexer _redis;
         private readonly IDatabase _database;
 
-        public RedisBasketRepository(ConnectionMultiplexer redis, IDatabase database)
+        public RedisBasketRepository(ConnectionMultiplexer redis)
         {
             _redis = redis;
-            _database = database;
+            _database = _redis.GetDatabase();
         }
 
         public async Task<CustomerBasket> GetBasketAsync(string customerId)

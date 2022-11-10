@@ -1,6 +1,6 @@
-﻿namespace Basket.DAL.Entities
+namespace Basket.API.Models
 {
-    public class BasketItem
+    public partial class BasketItemDto
     {
         public string Id { get; set; }
         public string ProductName { get; set; }
