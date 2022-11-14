@@ -28,7 +28,7 @@ namespace Ordering.API.UseCase.GetOrderDetails
                 orderItemDetailsModels.Add(new(item.Name, item.Units, item.UnitPrice));
 
             OrderDetailsModel orderDetailsModel = new(order.Id, order.Address, order.OrderDate,
-                order.Price, orderItemDetailsModels);
+                order.Price, orderItemDetailsModels, order.Status);
 
             return Ok(orderDetailsModel);
         }

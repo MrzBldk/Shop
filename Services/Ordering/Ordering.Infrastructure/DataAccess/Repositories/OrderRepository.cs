@@ -1,5 +1,4 @@
-﻿using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Ordering.Application.Repositories;
 using Ordering.Domain.Orders;
 using Ordering.Domain.ValueObjects;
@@ -57,6 +56,15 @@ namespace Ordering.Infrastructure.DataAccess.Repositories
             };
 
             _context.Orders.Add(orderEntity);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task Update(Order order)
+        {
+            Entities.Order orderEntity = await _context.Orders.FindAsync(order.Id);
+            if (orderEntity is null)
+                throw new InfrastructureException($"Order with id {order.Id} not found");
+            orderEntity.OrderStatus = order.OrderStatus.Id;
             await _context.SaveChangesAsync();
         }
 

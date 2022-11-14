@@ -36,7 +36,8 @@ namespace Ordering.Infrastructure.DataAccess.Queries
                     order.ZipCode
                     ),
                 itemsCollection,
-                order.OrderDate
+                order.OrderDate,
+                order.OrderStatus
                 );
 
             OrderResult orderResult = new(result);
