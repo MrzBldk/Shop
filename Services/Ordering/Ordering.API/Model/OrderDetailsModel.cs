@@ -9,14 +9,16 @@ namespace Ordering.API.Model
         public DateTime OrderDate { get; }
         public decimal Price { get; }
         public List<OrderItemDetailsModel> Items { get; }
+        public string Status { get; }
 
-        public OrderDetailsModel(Guid id, string address, DateTime orderDate, decimal price, List<OrderItemDetailsModel> items)
+        public OrderDetailsModel(Guid id, string address, DateTime orderDate, decimal price, List<OrderItemDetailsModel> items, string status)
         {
             Id = id;
             Address = address;
             OrderDate = orderDate;
             Price = price;
             Items = items;
+            Status = status;
         }
     }
 }

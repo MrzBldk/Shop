@@ -9,14 +9,16 @@ namespace Ordering.Application.Results
         public DateTime OrderDate { get; }
         public decimal Price { get; }
         public List<ItemResult> Items { get; }
+        public string Status { get; }
 
-        public OrderResult(Guid id, string address, DateTime orderDate, decimal price, List<ItemResult> items)
+        public OrderResult(Guid id, string address, DateTime orderDate, decimal price, List<ItemResult> items, string status)
         {
             Id = id;
             Address = address;
             OrderDate = orderDate;
             Price = price;
             Items = items;
+            Status = status;
         }
 
         public OrderResult(Order order)
@@ -31,6 +33,7 @@ namespace Ordering.Application.Results
                 ItemResult itemResult = new(item.Name, item.Units, item.UnitPrice);
                 Items.Add(itemResult);
             }
+            Status = order.OrderStatus.Name;
         }
     }
 }

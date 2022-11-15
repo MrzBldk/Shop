@@ -1,7 +1,9 @@
 ﻿using NSubstitute;
 using Ordering.Application.Commands.AddOrderItem;
 using Ordering.Application.Commands.CreateOrder;
+using Ordering.Application.Commands.SetShippedStatus;
 using Ordering.Application.Repositories;
+using Ordering.Domain;
 using Ordering.Domain.ValueObjects;
 
 namespace Ordering.UseCases.Tests
@@ -63,6 +65,15 @@ namespace Ordering.UseCases.Tests
                 Assert.That(result.Order.Items[0].UnitPrice, Is.EqualTo(price));
                 Assert.That(result.Order.Items[0].Units, Is.EqualTo(units));
             });
+        }
+
+        [Test]
+        public async Task Change_Status_From_Submitted_To_Shipped_Throws()
+        {
+            _orderReadOnlyRepository.Get(Arg.Any<Guid>()).Returns(new Domain.Orders.Order(new("a", "a", "a", "a", "a")));
+            SetShippedStatusUseCase useCase = new(_orderReadOnlyRepository, _orderWriteOnlyRepository);
+            var exception = Assert.ThrowsAsync<DomainException>(async () => await useCase.Execute(Guid.NewGuid()));
+            Assert.That(exception.Message, Is.EqualTo("Is not possible to change the order status from submitted to shipped."));
         }
     }
 }
