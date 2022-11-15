@@ -28,6 +28,7 @@ namespace Ordering.Domain.Orders
             OrderDate = DateTime.Now;
             _items = new ItemsCollection();
             _orderStatusId = OrderStatus.Submitted.Id;
+            OrderStatus = OrderStatus.From(_orderStatusId);
         }
 
         private Order() { }
@@ -40,7 +41,8 @@ namespace Ordering.Domain.Orders
                 Address = address,
                 _items = items,
                 OrderDate = orderDate,
-                _orderStatusId = orderStatus
+                _orderStatusId = orderStatus,
+                OrderStatus = OrderStatus.Submitted
             };
             return order;
         }
@@ -65,6 +67,7 @@ namespace Ordering.Domain.Orders
             if (_orderStatusId == OrderStatus.Submitted.Id)
             {
                 _orderStatusId = OrderStatus.AwaitingValidation.Id;
+                OrderStatus = OrderStatus.From(_orderStatusId);
             }
         }
 
@@ -73,6 +76,7 @@ namespace Ordering.Domain.Orders
             if (_orderStatusId == OrderStatus.AwaitingValidation.Id)
             {
                 _orderStatusId = OrderStatus.StockConfirmed.Id;
+                OrderStatus = OrderStatus.From(_orderStatusId);
             }
         }
 
@@ -83,6 +87,7 @@ namespace Ordering.Domain.Orders
                 StatusChangeException(OrderStatus.Shipped);
             }
             _orderStatusId = OrderStatus.Shipped.Id;
+            OrderStatus = OrderStatus.From(_orderStatusId);
         }
 
         public void SetCancelledStatus()
@@ -94,6 +99,7 @@ namespace Ordering.Domain.Orders
             }
 
             _orderStatusId = OrderStatus.Cancelled.Id;
+            OrderStatus = OrderStatus.From(_orderStatusId);
         }
 
         private void StatusChangeException(OrderStatus orderStatusToChange)

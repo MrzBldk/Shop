@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Ordering.Application.Commands.AddOrderItem;
 using Ordering.Application.Commands.SetAwaitingValidationStatus;
 using Ordering.Application.Commands.SetCancelledStatus;
 using Ordering.Application.Commands.SetShippedStatus;
@@ -25,6 +24,34 @@ namespace Ordering.API.UseCase.ChangeOrderStatus
             _setCancelledStatusUseCase = setCancelledStatusUseCase;
             _setShippedStatusUseCase = setShippedStatusUseCase;
             _setStockConfirmedStatusUseCase = setStockConfirmedStatusUseCase;
+        }
+
+        [HttpPut("{id}/AwaitingValidation")]
+        public async Task<IActionResult> SetAwaitingValidationStatus(Guid id)
+        {
+            await _setAwaitingValidationStatus.Execute(id);
+            return NoContent();
+        }
+
+        [HttpPut("{id}/Cancelled")]
+        public async Task<IActionResult> SetCancelledStatusUseCase(Guid id)
+        {
+            await _setCancelledStatusUseCase.Execute(id);
+            return NoContent();
+        }
+
+        [HttpPut("{id}/Shipped")]
+        public async Task<IActionResult> SetShippedStatusUseCase(Guid id)
+        {
+            await _setShippedStatusUseCase.Execute(id);
+            return NoContent();
+        }
+
+        [HttpPut("{id}/StockConfirmed")]
+        public async Task<IActionResult> SetStockConfirmedStatusUseCase(Guid id)
+        {
+            await _setStockConfirmedStatusUseCase.Execute(id);
+            return NoContent();
         }
     }
 }
