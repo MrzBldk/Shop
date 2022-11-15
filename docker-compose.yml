@@ -61,7 +61,25 @@ services:
     volumes:
       - ordering-data:/var/opt/mssql/data
 
+  basket.api:
+    image: ${DOCKER_REGISTRY-}basketapi
+    ports:
+      - "8003:443"
+    build:
+      context: .
+      dockerfile: Services/Basket/Basket.API/Dockerfile
+    depends_on:
+     - basketdata
+
+  basketdata:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - basketdata:/data
+
 volumes:
   catalog-data:
   store-data:
   ordering-data:
+  basketdata:
