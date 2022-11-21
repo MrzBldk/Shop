@@ -2,13 +2,15 @@
 using Catalog.BLL.DTO;
 using Catalog.BLL.Services.Interfaces;
 using Catalog.DAL.Repositories.Interfaces;
+using Microsoft.Extensions.Logging;
 using Type = Catalog.DAL.Entities.Type;
 
 namespace Catalog.BLL.Services
 {
     public class TypeService : BaseService, ITypeService
     {
-        public TypeService(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
+        public TypeService(IUnitOfWork unitOfWork, IMapper mapper, ILogger<TypeService> logger) 
+            : base(unitOfWork, mapper, logger) { }
 
         public async Task<List<TypeDTO>> Get()
         {
@@ -31,12 +33,14 @@ namespace Catalog.BLL.Services
             {
                 var entity = mapper.Map<Type>(typeDTO);
                 unitOfWork.TypeRepository.InsertOrUpdate(entity);
+                logger.LogInformation("New Type Created");
             }
             else
             {
                 Type toEdit = await unitOfWork.TypeRepository.FindById(typeDTO.Id);
                 mapper.Map(typeDTO, toEdit);
                 unitOfWork.TypeRepository.InsertOrUpdate(toEdit);
+                logger.LogInformation("Type {id} updated", typeDTO.Id);
             }
             await unitOfWork.Commit();
         }
@@ -45,6 +49,7 @@ namespace Catalog.BLL.Services
             Type toDelete = await unitOfWork.TypeRepository.FindById(id);
             unitOfWork.TypeRepository.Delete(toDelete);
             await unitOfWork.Commit();
+            logger.LogInformation("Type {id} removed", id);
         }
     }
 }

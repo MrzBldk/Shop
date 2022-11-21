@@ -8,6 +8,7 @@ namespace Ordering.API.UseCase.ChangeOrderStatus
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Produces("application/json")]
     public class OrderController : ControllerBase
     {
         private readonly ISetAwaitingValidationStatusUseCase _setAwaitingValidationStatus;
@@ -27,6 +28,7 @@ namespace Ordering.API.UseCase.ChangeOrderStatus
         }
 
         [HttpPut("{id}/AwaitingValidation")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> SetAwaitingValidationStatus(Guid id)
         {
             await _setAwaitingValidationStatus.Execute(id);
@@ -34,6 +36,7 @@ namespace Ordering.API.UseCase.ChangeOrderStatus
         }
 
         [HttpPut("{id}/Cancelled")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> SetCancelledStatusUseCase(Guid id)
         {
             await _setCancelledStatusUseCase.Execute(id);
@@ -41,6 +44,7 @@ namespace Ordering.API.UseCase.ChangeOrderStatus
         }
 
         [HttpPut("{id}/Shipped")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> SetShippedStatusUseCase(Guid id)
         {
             await _setShippedStatusUseCase.Execute(id);
@@ -48,6 +52,7 @@ namespace Ordering.API.UseCase.ChangeOrderStatus
         }
 
         [HttpPut("{id}/StockConfirmed")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> SetStockConfirmedStatusUseCase(Guid id)
         {
             await _setStockConfirmedStatusUseCase.Execute(id);

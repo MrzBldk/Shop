@@ -7,15 +7,18 @@ namespace Store.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Produces("application/json")]
     public class StoreSectionController : ApiControllerBase
     {
         [HttpPost]
+        [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
         public async Task<ActionResult<Guid>> Create(CreateStoreSectionCommand command)
         {
             return await Mediator.Send(command);
         }
 
         [HttpPut]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<ActionResult> Update(UpdateStoreSectionCommand command)
         {
             await Mediator.Send(command);
@@ -24,6 +27,7 @@ namespace Store.API.Controllers
         }
 
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<ActionResult> Delete(Guid id)
         {
             await Mediator.Send(new DeleteStoreSectionCommand(id));

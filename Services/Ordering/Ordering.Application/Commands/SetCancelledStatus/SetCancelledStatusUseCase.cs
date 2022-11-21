@@ -1,4 +1,5 @@
-﻿using Ordering.Application.Repositories;
+﻿using Microsoft.Extensions.Logging;
+using Ordering.Application.Repositories;
 using Ordering.Domain.Orders;
 
 namespace Ordering.Application.Commands.SetCancelledStatus
@@ -7,12 +8,14 @@ namespace Ordering.Application.Commands.SetCancelledStatus
     {
         private readonly IOrderReadOnlyRepository _orderReadOnlyRepository;
         private readonly IOrderWriteOnlyRepository _orderWriteOnlyRepository;
+        private readonly ILogger _logger;
 
         public SetCancelledStatusUseCase(IOrderReadOnlyRepository orderReadOnlyRepository,
-            IOrderWriteOnlyRepository orderWriteOnlyRepository)
+            IOrderWriteOnlyRepository orderWriteOnlyRepository, ILogger<SetCancelledStatusUseCase> logger)
         {
             _orderReadOnlyRepository = orderReadOnlyRepository;
             _orderWriteOnlyRepository = orderWriteOnlyRepository;
+            _logger = logger;
         }
 
         public async Task Execute(Guid orderId)
@@ -22,6 +25,8 @@ namespace Ordering.Application.Commands.SetCancelledStatus
                 throw new ApplicationException($"Order with id {orderId} not found");
 
             order.SetCancelledStatus();
+
+            _logger.LogInformation("Order {id} status changed to {newStatus}", orderId, order.OrderStatus.ToString());
 
             await _orderWriteOnlyRepository.Update(order);
         }
