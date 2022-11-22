@@ -16,6 +16,7 @@ namespace Ordering.API.UseCase.GetOrderDetails
         }
 
         [HttpGet("{id}")]
+        [ProducesResponseType(typeof(OrderDetailsModel), StatusCodes.Status200OK)]
         public async Task<IActionResult> Get([FromRoute] Guid id)
         {
             OrderResult order = await _orderQueries.GetOrder(id);

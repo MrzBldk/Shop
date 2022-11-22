@@ -1,4 +1,6 @@
-﻿using NSubstitute;
+﻿using Castle.Core.Logging;
+using Microsoft.Extensions.Logging;
+using NSubstitute;
 using Ordering.Application.Commands.AddOrderItem;
 using Ordering.Application.Commands.CreateOrder;
 using Ordering.Application.Commands.SetShippedStatus;
@@ -14,12 +16,19 @@ namespace Ordering.UseCases.Tests
 
         private IOrderWriteOnlyRepository _orderWriteOnlyRepository;
         private IOrderReadOnlyRepository _orderReadOnlyRepository;
+        private ILogger<AddOrderItemUseCase> _addLogger;
+        private ILogger<SetShippedStatusUseCase> _shippedLogger;
+        private ILogger<CreateOrderUseCase> _createLogger;
 
         [SetUp]
         public void Setup()
         {
             _orderReadOnlyRepository = Substitute.For<IOrderReadOnlyRepository>();
             _orderWriteOnlyRepository = Substitute.For<IOrderWriteOnlyRepository>();
+            _createLogger = Substitute.For<ILogger<CreateOrderUseCase>>();
+            _addLogger = Substitute.For<ILogger<AddOrderItemUseCase>>();
+            _shippedLogger = Substitute.For<ILogger<SetShippedStatusUseCase>>();
+
         }
 
         [Test]
@@ -30,7 +39,7 @@ namespace Ordering.UseCases.Tests
         {
             var expectedAdress = $"{country}, {state}, {city}, {street}, {zipCode}";
 
-            CreateOrderUseCase useCase = new(_orderWriteOnlyRepository);
+            CreateOrderUseCase useCase = new(_orderWriteOnlyRepository, _createLogger);
             Address address = new(street, city, state, country, zipCode);
             CreateOrderResult result = await useCase.Execute(address);
 
@@ -54,7 +63,7 @@ namespace Ordering.UseCases.Tests
         public async Task Add_Valid_OrderItem(decimal price, string name, int units)
         {            
             _orderReadOnlyRepository.Get(Arg.Any<Guid>()).Returns(new Domain.Orders.Order(new ("a", "a", "a", "a", "a")));
-            AddOrderItemUseCase useCase = new(_orderReadOnlyRepository, _orderWriteOnlyRepository);
+            AddOrderItemUseCase useCase = new(_orderReadOnlyRepository, _orderWriteOnlyRepository, _addLogger);
             AddOrderItemResult result = await useCase.Execute(Guid.NewGuid(), price, name, units);
 
             Assert.Multiple(() =>
@@ -71,7 +80,7 @@ namespace Ordering.UseCases.Tests
         public async Task Change_Status_From_Submitted_To_Shipped_Throws()
         {
             _orderReadOnlyRepository.Get(Arg.Any<Guid>()).Returns(new Domain.Orders.Order(new("a", "a", "a", "a", "a")));
-            SetShippedStatusUseCase useCase = new(_orderReadOnlyRepository, _orderWriteOnlyRepository);
+            SetShippedStatusUseCase useCase = new(_orderReadOnlyRepository, _orderWriteOnlyRepository, _shippedLogger);
             var exception = Assert.ThrowsAsync<DomainException>(async () => await useCase.Execute(Guid.NewGuid()));
             Assert.That(exception.Message, Is.EqualTo("Is not possible to change the order status from submitted to shipped."));
         }

@@ -1,4 +1,5 @@
-﻿using Ordering.Application.Repositories;
+﻿using Microsoft.Extensions.Logging;
+using Ordering.Application.Repositories;
 using Ordering.Domain.Orders;
 
 namespace Ordering.Application.Commands.SetAwaitingValidationStatus
@@ -7,9 +8,10 @@ namespace Ordering.Application.Commands.SetAwaitingValidationStatus
     {
         private readonly IOrderReadOnlyRepository _orderReadOnlyRepository;
         private readonly IOrderWriteOnlyRepository _orderWriteOnlyRepository;
+        private readonly ILogger _logger;
 
         public SetAwaitingValidationStatusUseCase(IOrderReadOnlyRepository orderReadOnlyRepository, 
-            IOrderWriteOnlyRepository orderWriteOnlyRepository)
+            IOrderWriteOnlyRepository orderWriteOnlyRepository, ILogger<SetAwaitingValidationStatusUseCase> logger)
         {
             _orderReadOnlyRepository = orderReadOnlyRepository;
             _orderWriteOnlyRepository = orderWriteOnlyRepository;
@@ -22,6 +24,8 @@ namespace Ordering.Application.Commands.SetAwaitingValidationStatus
                 throw new ApplicationException($"Order with id {orderId} not found");
 
             order.SetAwaitingValidationStatus();
+
+            _logger.LogInformation("Order {id} status changed to {newStatus}", orderId, order.OrderStatus.ToString());
 
             await _orderWriteOnlyRepository.Update(order);
         }

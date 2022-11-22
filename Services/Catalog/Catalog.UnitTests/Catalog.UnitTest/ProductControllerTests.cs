@@ -1,4 +1,5 @@
 using AutoMapper;
+using Castle.Core.Logging;
 using Catalog.API.Controllers;
 using Catalog.API.Mappers;
 using Catalog.API.Models.Product;
@@ -9,6 +10,7 @@ using Catalog.DAL.Repositories;
 using Catalog.DAL.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Moq;
 using static Catalog.UnitTest.GetFakeProductsUtil;
 
@@ -57,8 +59,9 @@ namespace Catalog.UnitTests
 
             Mock<IUnitOfWork> mock = new();
             mock.Setup(unit => unit.ProductRepository).Returns(productRepository);
+            Mock<ILogger<ProductService>> loggerMock = new();
 
-            ProductService productService = new(mock.Object, mapper);
+            ProductService productService = new(mock.Object, mapper, loggerMock.Object);
             ProductController productController = new(mapper, productService);
             var actionResult = await productController.Get(skip, take, new());
 
@@ -83,8 +86,9 @@ namespace Catalog.UnitTests
 
             var mock = new Mock<IUnitOfWork>();
             mock.Setup(unit => unit.ProductRepository).Returns(productRepository);
+            Mock<ILogger<ProductService>> loggerMock = new();
 
-            ProductService productService = new(mock.Object, mapper);
+            ProductService productService = new(mock.Object, mapper, loggerMock.Object);
             ProductController productController = new(mapper, productService);
             var actionResult = await productController.Get(0, 0, new() { Brands = new[] { Guid.Parse("a94e48d7-951d-499c-9462-7df138ab34c9") } });
 
@@ -109,8 +113,9 @@ namespace Catalog.UnitTests
 
             var mock = new Mock<IUnitOfWork>();
             mock.Setup(unit => unit.ProductRepository).Returns(productRepository);
+            Mock<ILogger<ProductService>> loggerMock = new();
 
-            ProductService productService = new(mock.Object, mapper);
+            ProductService productService = new(mock.Object, mapper, loggerMock.Object);
             ProductController productController = new(mapper, productService);
             var actionResult = await productController.Get(0, 0, new() { Types = new[] { Guid.Parse("fafbdce2-5e5d-4db4-ab7d-6553e10140fb") } });
 

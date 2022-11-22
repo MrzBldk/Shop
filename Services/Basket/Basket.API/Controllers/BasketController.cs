@@ -7,6 +7,7 @@ namespace Basket.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Produces("application/json")]
     public class BasketController : ControllerBase
     {
         private readonly IBasketRepository _repository;
@@ -27,6 +28,7 @@ namespace Basket.API.Controllers
 
         [HttpPost]
         [ProducesResponseType(typeof(CustomerBasketDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<CustomerBasketDto>> UpdateBasketAsync([FromBody] CustomerBasketDto value)
         {
             foreach (BasketItemDto item in value.Items)

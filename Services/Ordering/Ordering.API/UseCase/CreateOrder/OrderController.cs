@@ -6,6 +6,7 @@ namespace Ordering.API.UseCase.CreateOrder
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Produces("application/json")]
     public class OrderController : ControllerBase
     {
         ICreateOrderUseCase _createOrderUseCase;
@@ -15,6 +16,7 @@ namespace Ordering.API.UseCase.CreateOrder
         }
 
         [HttpPost]
+        [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
         public async Task<IActionResult> Post([FromBody] CreateOrderRequest createOrderRequest)
         {
             Address address = new(createOrderRequest.Street, createOrderRequest.City,
