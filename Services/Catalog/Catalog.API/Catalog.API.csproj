@@ -20,4 +20,8 @@
     <ProjectReference Include="..\Catalog.BLL\Catalog.BLL.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
 </Project>
