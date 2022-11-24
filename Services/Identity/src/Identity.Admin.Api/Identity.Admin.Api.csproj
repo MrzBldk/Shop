@@ -46,8 +46,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Identity.Admin.EntityFramework.MySql\Identity.Admin.EntityFramework.MySql.csproj" />
-    <ProjectReference Include="..\Identity.Admin.EntityFramework.PostgreSQL\Identity.Admin.EntityFramework.PostgreSQL.csproj" />
     <ProjectReference Include="..\Identity.Admin.EntityFramework.SqlServer\Identity.Admin.EntityFramework.SqlServer.csproj" />
     <ProjectReference Include="..\Identity.Shared\Identity.Shared.csproj" />
   </ItemGroup>

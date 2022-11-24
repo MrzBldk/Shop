@@ -60,21 +60,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Basket.UnitTests", "Service
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Identity", "Identity", "{05F791BA-B5E1-4EF3-B9DF-D8741AA00D0B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Identity.Admin", "Services\Identity\src\Identity.Admin\Identity.Admin.csproj", "{626A2613-5C4E-4428-ADB8-C63B62201994}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Identity.Admin", "Services\Identity\src\Identity.Admin\Identity.Admin.csproj", "{626A2613-5C4E-4428-ADB8-C63B62201994}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Identity.STS.Identity", "Services\Identity\src\Identity.STS.Identity\Identity.STS.Identity.csproj", "{7B227EB5-BCCF-4428-84A7-896BE0DCA021}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Identity.STS.Identity", "Services\Identity\src\Identity.STS.Identity\Identity.STS.Identity.csproj", "{7B227EB5-BCCF-4428-84A7-896BE0DCA021}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Identity.Admin.Api", "Services\Identity\src\Identity.Admin.Api\Identity.Admin.Api.csproj", "{C173B0E3-8494-4FCB-8F0C-269C4C6E43EA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Identity.Admin.Api", "Services\Identity\src\Identity.Admin.Api\Identity.Admin.Api.csproj", "{C173B0E3-8494-4FCB-8F0C-269C4C6E43EA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Identity.Admin.EntityFramework.Shared", "Services\Identity\src\Identity.Admin.EntityFramework.Shared\Identity.Admin.EntityFramework.Shared.csproj", "{763ED3F5-32AA-408C-A1A7-DBA9451D3629}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Identity.Admin.EntityFramework.Shared", "Services\Identity\src\Identity.Admin.EntityFramework.Shared\Identity.Admin.EntityFramework.Shared.csproj", "{763ED3F5-32AA-408C-A1A7-DBA9451D3629}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Identity.Admin.EntityFramework.MySql", "Services\Identity\src\Identity.Admin.EntityFramework.MySql\Identity.Admin.EntityFramework.MySql.csproj", "{2DA247C7-B11E-4B1E-A1F1-09587C84C639}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Identity.Admin.EntityFramework.SqlServer", "Services\Identity\src\Identity.Admin.EntityFramework.SqlServer\Identity.Admin.EntityFramework.SqlServer.csproj", "{5228816A-D689-40BD-BA9D-1046E2FC7D88}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Identity.Admin.EntityFramework.PostgreSQL", "Services\Identity\src\Identity.Admin.EntityFramework.PostgreSQL\Identity.Admin.EntityFramework.PostgreSQL.csproj", "{4DED3F24-B28E-45C2-BFAE-779FB0977EA8}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Identity.Admin.EntityFramework.SqlServer", "Services\Identity\src\Identity.Admin.EntityFramework.SqlServer\Identity.Admin.EntityFramework.SqlServer.csproj", "{5228816A-D689-40BD-BA9D-1046E2FC7D88}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Identity.Shared", "Services\Identity\src\Identity.Shared\Identity.Shared.csproj", "{D8EF46B0-14F7-4280-9C7B-ADFAC559A3C7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Identity.Shared", "Services\Identity\src\Identity.Shared\Identity.Shared.csproj", "{D8EF46B0-14F7-4280-9C7B-ADFAC559A3C7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -170,14 +166,6 @@ Global
 		{763ED3F5-32AA-408C-A1A7-DBA9451D3629}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{763ED3F5-32AA-408C-A1A7-DBA9451D3629}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{763ED3F5-32AA-408C-A1A7-DBA9451D3629}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2DA247C7-B11E-4B1E-A1F1-09587C84C639}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2DA247C7-B11E-4B1E-A1F1-09587C84C639}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2DA247C7-B11E-4B1E-A1F1-09587C84C639}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2DA247C7-B11E-4B1E-A1F1-09587C84C639}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4DED3F24-B28E-45C2-BFAE-779FB0977EA8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4DED3F24-B28E-45C2-BFAE-779FB0977EA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4DED3F24-B28E-45C2-BFAE-779FB0977EA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4DED3F24-B28E-45C2-BFAE-779FB0977EA8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5228816A-D689-40BD-BA9D-1046E2FC7D88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5228816A-D689-40BD-BA9D-1046E2FC7D88}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5228816A-D689-40BD-BA9D-1046E2FC7D88}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -220,8 +208,6 @@ Global
 		{7B227EB5-BCCF-4428-84A7-896BE0DCA021} = {05F791BA-B5E1-4EF3-B9DF-D8741AA00D0B}
 		{C173B0E3-8494-4FCB-8F0C-269C4C6E43EA} = {05F791BA-B5E1-4EF3-B9DF-D8741AA00D0B}
 		{763ED3F5-32AA-408C-A1A7-DBA9451D3629} = {05F791BA-B5E1-4EF3-B9DF-D8741AA00D0B}
-		{2DA247C7-B11E-4B1E-A1F1-09587C84C639} = {05F791BA-B5E1-4EF3-B9DF-D8741AA00D0B}
-		{4DED3F24-B28E-45C2-BFAE-779FB0977EA8} = {05F791BA-B5E1-4EF3-B9DF-D8741AA00D0B}
 		{5228816A-D689-40BD-BA9D-1046E2FC7D88} = {05F791BA-B5E1-4EF3-B9DF-D8741AA00D0B}
 		{D8EF46B0-14F7-4280-9C7B-ADFAC559A3C7} = {05F791BA-B5E1-4EF3-B9DF-D8741AA00D0B}
 	EndGlobalSection
