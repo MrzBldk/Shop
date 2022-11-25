@@ -3,6 +3,7 @@ using Catalog.API.Models.Product;
 using Catalog.BLL.DTO;
 using Catalog.BLL.Services.Interfaces;
 using Catalog.DAL.Helpers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Catalog.API.Controllers
@@ -44,6 +45,7 @@ namespace Catalog.API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "StoreManager")]
         [ProducesResponseType(typeof(ProductViewModel), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Post([FromServices] IBrandService brandService, [FromServices] ITypeService typeService,
@@ -66,6 +68,7 @@ namespace Catalog.API.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = "StoreManager")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Put([FromServices] IBrandService brandService, [FromServices] ITypeService typeService,
@@ -89,6 +92,7 @@ namespace Catalog.API.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "ShopModerator")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Delete([FromRoute] Guid Id)

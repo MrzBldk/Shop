@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Ordering.Application.Commands.AddOrderItem;
 
 namespace Ordering.API.UseCase.AddOrderItem
@@ -6,6 +7,7 @@ namespace Ordering.API.UseCase.AddOrderItem
     [Route("api/[controller]")]
     [ApiController]
     [Produces("application/json")]
+    [Authorize(Roles = "ShopClient")]
     public class OrderController : ControllerBase
     {
         private readonly IAddOrderItemUseCase _addOrderItemUseCase;

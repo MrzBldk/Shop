@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Ordering.API.Model;
 using Ordering.Application.Queries;
 using Ordering.Application.Results;
@@ -7,6 +8,7 @@ namespace Ordering.API.UseCase.GetOrderDetails
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "ShopClient")]
     public class OrderController : ControllerBase
     {
         private readonly IOrderQueries _orderQueries;
