@@ -61,24 +61,54 @@
                 ]
             }
         ],
-        "ApiScopes": [
-            {
-                "Name": "shop_identity_admin_api",
-                "DisplayName": "shop_identity_admin_api",
-                "Required": true,
-                "UserClaims": [
-                    "role",
-                    "name"
-                ]
-            }
-        ],
+      "ApiScopes": [
+        {
+          "Name": "shop_identity_admin_api",
+          "DisplayName": "shop_identity_admin_api",
+          "Required": true,
+          "UserClaims": [
+            "role",
+            "name"
+          ]
+        },
+        {
+          "Name": "catalog_api",
+          "DisplayName": "catalog_api"
+        },
+        {
+          "Name": "store_api",
+          "DisplayName": "store_api"
+        },
+        {
+          "Name": "ordering_api",
+          "DisplayName": "ordering_api"
+        }
+      ],
         "ApiResources": [
-            {
-                "Name": "shop_identity_admin_api",
-                "Scopes": [
-                    "shop_identity_admin_api"
-                ]
-            }
+          {
+            "Name": "catalog_api",
+            "Scopes": [
+              "catalog_api"
+            ]
+          },
+          {
+            "Name": "store_api",
+            "Scopes": [
+              "store_api"
+            ]
+          },
+          {
+            "Name": "ordering_api",
+            "Scopes": [
+              "ordering_api"
+            ]
+          },
+          {
+            "Name": "shop_identity_admin_api",
+            "Scopes": [
+              "shop_identity_admin_api"
+            ]
+          }
         ],
         "Clients": [
             {
@@ -111,24 +141,93 @@
                     "roles"
                 ]
             },
-            {
-                "ClientId": "shop_identity_admin_api_swaggerui",
-                "ClientName": "shop_identity_admin_api_swaggerui",
-                "AllowedGrantTypes": [
-                    "authorization_code"
-                ],
-                "RequireClientSecret": false,
-                "RequirePkce": true,
-                "RedirectUris": [
-                    "https://admin-api.skoruba.local/swagger/oauth2-redirect.html"
-                ],
-                "AllowedScopes": [
-                    "shop_identity_admin_api"
-                ],
-                "AllowedCorsOrigins": [
-                    "https://admin-api.skoruba.local"
-                ]
-            }
+          {
+            "ClientId": "shop_identity_admin_api_swaggerui",
+            "ClientName": "shop_identity_admin_api_swaggerui",
+            "AllowedGrantTypes": [
+              "authorization_code"
+            ],
+            "RequireClientSecret": false,
+            "RequirePkce": true,
+            "RedirectUris": [
+              "https://admin-api.skoruba.local/swagger/oauth2-redirect.html"
+            ],
+            "AllowedScopes": [
+              "shop_identity_admin_api"
+            ],
+            "AllowedCorsOrigins": [
+              "https://admin-api.skoruba.local"
+            ]
+          },
+          {
+            "ClientId": "catalog_api",
+            "ClientName": "catalog_api",
+            "AllowedGrantTypes": [
+              "authorization_code"
+            ],
+            "RequireClientSecret": true,
+            "RequirePkce": true,
+            "ClientSecrets": [
+              {
+                "Value": "secret"
+              }
+            ],
+            "RedirectUris": [
+              "https://localhost:8000/swagger/oauth2-redirect.html"
+            ],
+            "AllowedScopes": [
+              "catalog_api"
+            ],
+            "AllowedCorsOrigins": [
+              "https://localhost:8000"
+            ]
+          },
+          {
+            "ClientId": "ordering_api",
+            "ClientName": "ordering_api",
+            "AllowedGrantTypes": [
+              "authorization_code"
+            ],
+            "RequireClientSecret": true,
+            "RequirePkce": true,
+            "ClientSecrets": [
+              {
+                "Value": "secret"
+              }
+            ],
+            "RedirectUris": [
+              "https://localhost:8002/swagger/oauth2-redirect.html"
+            ],
+            "AllowedScopes": [
+              "ordering_api"
+            ],
+            "AllowedCorsOrigins": [
+              "https://localhost:8002"
+            ]
+          },
+          {
+            "ClientId": "store_api",
+            "ClientName": "store_api",
+            "AllowedGrantTypes": [
+              "authorization_code"
+            ],
+            "RequireClientSecret": true,
+            "RequirePkce": true,
+            "ClientSecrets": [
+              {
+                "Value": "secret"
+              }
+            ],
+            "RedirectUris": [
+              "https://localhost:8001/swagger/oauth2-redirect.html"
+            ],
+            "AllowedScopes": [
+              "store_api"
+            ],
+            "AllowedCorsOrigins": [
+              "https://localhost:8001"
+            ]
+          }
         ]
     }
 }
