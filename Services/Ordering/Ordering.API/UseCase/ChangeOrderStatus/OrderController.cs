@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Ordering.Application.Commands.SetAwaitingValidationStatus;
 using Ordering.Application.Commands.SetCancelledStatus;
 using Ordering.Application.Commands.SetShippedStatus;
@@ -9,6 +10,7 @@ namespace Ordering.API.UseCase.ChangeOrderStatus
     [Route("api/[controller]")]
     [ApiController]
     [Produces("application/json")]
+    [Authorize(Roles = "ShopModerator")]
     public class OrderController : ControllerBase
     {
         private readonly ISetAwaitingValidationStatusUseCase _setAwaitingValidationStatus;

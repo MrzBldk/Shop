@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Store.Application.Stores.Commands.CreateStore;
 using Store.Application.Stores.Commands.DeleteStore;
 using Store.Application.Stores.Commands.UpdateStore;
@@ -27,6 +28,7 @@ namespace Store.API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "StoreManager")]
         [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
         public async Task<ActionResult<Guid>> Create(CreateStoreCommand command)
         {
@@ -34,6 +36,7 @@ namespace Store.API.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = "StoreManager")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<ActionResult> Update(UpdateStoreCommand command)
         {
@@ -43,6 +46,7 @@ namespace Store.API.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "ShopModerator")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<ActionResult> Delete(Guid id)
         {

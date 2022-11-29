@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Ordering.Application.Commands.CreateOrder;
 using Ordering.Domain.ValueObjects;
 
@@ -7,6 +8,7 @@ namespace Ordering.API.UseCase.CreateOrder
     [Route("api/[controller]")]
     [ApiController]
     [Produces("application/json")]
+    [Authorize(Roles = "ShopClient")]
     public class OrderController : ControllerBase
     {
         ICreateOrderUseCase _createOrderUseCase;

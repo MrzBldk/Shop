@@ -1,6 +1,7 @@
 ﻿using Catalog.API.Models.Picture;
 using Catalog.BLL.DTO;
 using Catalog.BLL.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Catalog.API.Controllers
@@ -29,6 +30,7 @@ namespace Catalog.API.Controllers
         }
 
         [HttpPost("{id}")]
+        [Authorize(Roles = "StoreManager")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

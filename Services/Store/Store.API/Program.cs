@@ -10,13 +10,19 @@ WebApplication app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(setup =>
+    {
+        setup.OAuthClientId("store_api");
+        setup.OAuthAppName("store_api");
+        setup.OAuthUsePkce();
+    });
 }
 
 app.UseHealthChecks("/health");
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
