@@ -92,7 +92,7 @@ namespace Catalog.API.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Roles = "ShopModerator")]
+        [Authorize(Roles = "ShopAdmin")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Delete([FromRoute] Guid Id)

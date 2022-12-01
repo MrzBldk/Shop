@@ -10,7 +10,7 @@ namespace Ordering.API.UseCase.ChangeOrderStatus
     [Route("api/[controller]")]
     [ApiController]
     [Produces("application/json")]
-    [Authorize(Roles = "ShopModerator")]
+    [Authorize(Roles = "ShopAdmin")]
     public class OrderController : ControllerBase
     {
         private readonly ISetAwaitingValidationStatusUseCase _setAwaitingValidationStatus;
