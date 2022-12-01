@@ -2,7 +2,7 @@
   "IdentityData": {
     "Roles": [
       {
-        "Name": "ShopIdentityAdminAdministrator"
+        "Name": "ShopAdmin"
       }
     ],
     "Users": [
@@ -11,7 +11,7 @@
         "Password": "Pa$$word123",
         "Email": "anton19lityagin@gmail.com",
         "Roles": [
-          "ShopIdentityAdminAdministrator"
+          "ShopAdmin"
         ],
         "Claims": [
           {

@@ -46,7 +46,7 @@ namespace Store.API.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Roles = "ShopModerator")]
+        [Authorize(Roles = "ShopAdmin")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<ActionResult> Delete(Guid id)
         {
