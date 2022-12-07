@@ -195,7 +195,7 @@ namespace Identity.Admin.Api.Helpers
                 })
                 .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
                 {
-                    options.Authority = adminApiConfiguration.IdentityServerBaseUrl;
+                    options.Authority = "http://skoruba-identityserver4-sts-identity";
                     options.RequireHttpsMetadata = adminApiConfiguration.RequireHttpsMetadata;
                     options.Audience = adminApiConfiguration.OidcApiName;
                 });

@@ -20,8 +20,6 @@ if (app.Environment.IsDevelopment())
 
 app.UseHealthChecks("/health");
 
-app.UseHttpsRedirection();
-
 app.UseAuthentication();
 app.UseAuthorization();
 
