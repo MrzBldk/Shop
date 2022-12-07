@@ -97,7 +97,7 @@ services:
       - 'ConnectionStrings__DataProtectionDbConnection=Server=db;Database=IdentityServer4Admin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true'
       - 'AdminConfiguration__IdentityAdminBaseUrl=http://localhost:9000'
       - 'AdminConfiguration__IdentityAdminRedirectUri=http://localhost:9000/signin-oidc'
-      - 'AdminConfiguration__IdentityServerBaseUrl=http://localhost:9002'
+      - 'AdminConfiguration__IdentityServerBaseUrl=http://host.docker.internal:9002'
       - AdminConfiguration__RequireHttpsMetadata=false
       - 'IdentityServerData__Clients__0__ClientUri=http://localhost:9000'
       - 'IdentityServerData__Clients__0__RedirectUris__0=http://localhost:9000/signin-oidc'
