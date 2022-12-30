@@ -7,12 +7,15 @@ namespace Store.Infrasructure.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<Domain.Entities.Store> builder)
         {
-            builder.Property(t => t.Name).
-                HasMaxLength(50).
-                IsRequired();
+            builder.Property(t => t.Name)
+                .HasMaxLength(50)
+                .IsRequired();
 
             builder.Property(t => t.Description)
                 .HasMaxLength(200);
+
+            builder.Property(t => t.UserId)
+                .IsRequired();
         }
     }
 }

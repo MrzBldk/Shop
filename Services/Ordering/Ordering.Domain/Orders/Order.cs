@@ -8,6 +8,7 @@ namespace Ordering.Domain.Orders
         public Address Address { get; private set; }
         public DateTime OrderDate { get; private set; }
         public OrderStatus OrderStatus { get; private set; }
+        public Guid UserId { get; private set; }
 
         private int _orderStatusId;
         private ItemsCollection _items;
@@ -21,7 +22,7 @@ namespace Ordering.Domain.Orders
             }
         }
 
-        public Order(Address address)
+        public Order(Address address, Guid userId)
         {
             Id = Guid.NewGuid();
             Address = address;
@@ -29,11 +30,12 @@ namespace Ordering.Domain.Orders
             _items = new ItemsCollection();
             _orderStatusId = OrderStatus.Submitted.Id;
             OrderStatus = OrderStatus.From(_orderStatusId);
+            UserId = userId;
         }
 
         private Order() { }
 
-        public static Order Load(Guid id, Address address, ItemsCollection items, DateTime orderDate, int orderStatus)
+        public static Order Load(Guid id, Address address, ItemsCollection items, DateTime orderDate, int orderStatus, Guid userId)
         {
             Order order = new()
             {
@@ -42,7 +44,8 @@ namespace Ordering.Domain.Orders
                 _items = items,
                 OrderDate = orderDate,
                 _orderStatusId = orderStatus,
-                OrderStatus = OrderStatus.Submitted
+                OrderStatus = OrderStatus.Submitted,
+                UserId = userId
             };
             return order;
         }

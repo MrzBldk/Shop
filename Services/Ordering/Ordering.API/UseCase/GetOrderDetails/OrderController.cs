@@ -28,10 +28,10 @@ namespace Ordering.API.UseCase.GetOrderDetails
             List<OrderItemDetailsModel> orderItemDetailsModels = new();
 
             foreach (ItemResult item in order.Items)
-                orderItemDetailsModels.Add(new(item.Name, item.Units, item.UnitPrice));
+                orderItemDetailsModels.Add(new(item.Name, item.Units, item.UnitPrice, item.ProductId));
 
             OrderDetailsModel orderDetailsModel = new(order.Id, order.Address, order.OrderDate,
-                order.Price, orderItemDetailsModels, order.Status);
+                order.Price, orderItemDetailsModels, order.Status, order.UserId);
 
             return Ok(orderDetailsModel);
         }

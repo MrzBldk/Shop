@@ -176,6 +176,22 @@ services:
       - 'dbdata:/var/opt/mssql'
 
 
+  gateway:
+    image: ${DOCKER_REGISTRY-}gateway
+    ports:
+      - "5000:80"
+    build:
+      context: .
+      dockerfile: Gateway/Gateway/Dockerfile
+
+  aggregator:
+    image: ${DOCKER_REGISTRY-}aggregator
+    ports:
+      - "5001:80"
+    build:
+      context: .
+      dockerfile: Gateway/Aggregator/Dockerfile
+
 volumes:
   catalog-data:
   store-data:
@@ -183,3 +199,4 @@ volumes:
   basketdata:
   dbdata:
     driver: local
+

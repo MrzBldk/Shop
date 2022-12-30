@@ -2,9 +2,12 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
 using Ordering.API;
 using Ordering.API.Filters;
+using Ordering.API.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddTransient<IIdentityService, IdentityService>();
 builder.Services.AddServices(builder.Configuration);
 builder.Services.AddControllers(options =>
 {

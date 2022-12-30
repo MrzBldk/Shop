@@ -1,22 +1,71 @@
+using Aggregator.Config;
+using Aggregator.Filters;
+using Aggregator.Infrastructure;
+using Aggregator.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.OpenApi.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+builder.Services.AddOptions();
+builder.Services.Configure<UrlsConfig>(builder.Configuration.GetSection("Urls"));
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+builder.Services.AddSwaggerGen(options =>
+{
+    options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+    {
+        Type = SecuritySchemeType.OAuth2,
+        Flows = new OpenApiOAuthFlows
+        {
+            AuthorizationCode = new OpenApiOAuthFlow
+            {
+                AuthorizationUrl = new Uri("http://localhost:9002/connect/authorize"),
+                TokenUrl = new Uri("http://localhost:9002/connect/token"),
+                Scopes = new Dictionary<string, string> { { "aggregator", "aggregator" } }
+            }
+        }
+    });
+    options.OperationFilter<AuthorizeCheckOperationFilter>();
+});
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(options =>
+{
+    options.Authority = "http://skoruba-identityserver4-sts-identity";
+    options.RequireHttpsMetadata = false;
+    options.Audience = "aggregator";
+});
+
+builder.Services.AddTransient<HttpClientAuthorizationDelegatingHandler>();
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+builder.Services.AddHttpClient<IBasketService, BasketService>();
+
+builder.Services.AddHttpClient<ICatalogService, CatalogService>();
+
+builder.Services.AddHttpClient<IOrderApiClient, OrderApiClient>()
+    .AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(setup =>
+    {
+        setup.OAuthClientId("aggregator");
+        setup.OAuthAppName("aggregator");
+        setup.OAuthUsePkce();
+    });
 }
 
-app.UseAuthorization();
+app.UseAuthentication();
 
 app.MapControllers();
 

@@ -11,6 +11,6 @@
         public string Brand { get; set; }
         public string Type { get; set; }
 
-        public Guid storeId { get; set; }
+        public Guid StoreId { get; set; }
     }
 }

@@ -43,7 +43,8 @@ namespace Basket.API.Models
                     ProductName = item.ProductName,
                     UnitPrice = item.UnitPrice,
                     Quantity = item.Quantity,
-                    PictureUrl = item.PictureUrl
+                    PictureUrl = item.PictureUrl,
+                    ProductId = item.ProductId
                 });
                 i++;
             }
@@ -71,7 +72,8 @@ namespace Basket.API.Models
                     ProductName = item.ProductName,
                     UnitPrice = item.UnitPrice,
                     Quantity = item.Quantity,
-                    PictureUrl = item.PictureUrl
+                    PictureUrl = item.PictureUrl,
+                    ProductId = item.ProductId
                 });
                 i++;
             }

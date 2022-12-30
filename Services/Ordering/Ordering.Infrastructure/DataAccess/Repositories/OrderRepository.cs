@@ -24,7 +24,7 @@ namespace Ordering.Infrastructure.DataAccess.Repositories
 
             ItemsCollection itemsCollection = new();
             foreach (var item in orderItemEntities)
-                itemsCollection.Add(new OrderItem(item.OrderId, item.UnitPrice, item.Name, item.Units));
+                itemsCollection.Add(new OrderItem(item.OrderId, item.ProductId, item.UnitPrice, item.Name, item.Units));
 
             Order order = Order.Load(
                 orderEntity.Id,
@@ -37,7 +37,8 @@ namespace Ordering.Infrastructure.DataAccess.Repositories
                     ),
                 itemsCollection,
                 orderEntity.OrderDate,
-                orderEntity.OrderStatus
+                orderEntity.OrderStatus,
+                orderEntity.UserId
                 );
 
             return order;
@@ -54,7 +55,8 @@ namespace Ordering.Infrastructure.DataAccess.Repositories
                 State = order.Address.State,
                 ZipCode = order.Address.ZipCode,
                 Country = order.Address.Country,
-                OrderStatus = order.OrderStatus.Id
+                OrderStatus = order.OrderStatus.Id,
+                UserId = order.UserId
             };
 
             _context.Orders.Add(orderEntity);

@@ -18,13 +18,13 @@ namespace Ordering.Application.Commands.AddOrderItem
             _logger = logger;
         }
 
-        public async Task<AddOrderItemResult> Execute(Guid orderId, decimal unitPrice, string name, int units = 1)
+        public async Task<AddOrderItemResult> Execute(Guid orderId, Guid productId, decimal unitPrice, string name, int units = 1)
         {
             Order order = await _orderReadOnlyRepository.Get(orderId);
             if (order is null)
                 throw new ApplicationException($"Order with id {orderId} not found");
 
-            OrderItem orderItem = new(orderId, unitPrice, name, units);
+            OrderItem orderItem = new(orderId, productId, unitPrice, name, units);
             order.AddItem(orderItem);
 
             await _orderWriteOnlyRepository.Update(order, orderItem);

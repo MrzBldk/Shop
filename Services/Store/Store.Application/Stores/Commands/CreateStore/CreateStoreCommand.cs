@@ -12,10 +12,12 @@ namespace Store.Application.Stores.Commands.CreateStore
     public class CreateStoreCommandHandler : IRequestHandler<CreateStoreCommand, Guid>
     {
         private readonly IApplicationDbContext _context;
+        private readonly ICurrentUserService _currentUserService;
 
-        public CreateStoreCommandHandler(IApplicationDbContext context)
+        public CreateStoreCommandHandler(IApplicationDbContext context, ICurrentUserService currentUserService)
         {
             _context = context;
+            _currentUserService = currentUserService;
         }
 
         public async Task<Guid> Handle(CreateStoreCommand request, CancellationToken cancellationToken)
@@ -23,7 +25,8 @@ namespace Store.Application.Stores.Commands.CreateStore
             Domain.Entities.Store entity = new()
             {
                 Name = request.Name,
-                Description = request.Description
+                Description = request.Description,
+                UserId = Guid.Parse(_currentUserService.UserId)
             };
 
             _context.Stores.Add(entity);

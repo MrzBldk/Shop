@@ -20,7 +20,7 @@ namespace Ordering.API.UseCase.AddOrderItem
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> Put([FromRoute] Guid id, AddOrderItemRequest addOrderItemRequest)
         {
-            await _addOrderItemUseCase.Execute(id, addOrderItemRequest.UnitPrice, addOrderItemRequest.Name, addOrderItemRequest.Units);
+            await _addOrderItemUseCase.Execute(id, addOrderItemRequest.ProductId, addOrderItemRequest.UnitPrice, addOrderItemRequest.Name, addOrderItemRequest.Units);
             return NoContent();
         }
 
@@ -30,7 +30,7 @@ namespace Ordering.API.UseCase.AddOrderItem
         {
             foreach(var item in addOrderItemRequest)
             {
-                await _addOrderItemUseCase.Execute(id, item.UnitPrice, item.Name, item.Units);
+                await _addOrderItemUseCase.Execute(id, item.ProductId, item.UnitPrice, item.Name, item.Units);
             }
             return NoContent();
         }
