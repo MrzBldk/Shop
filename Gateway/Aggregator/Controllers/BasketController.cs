@@ -18,6 +18,8 @@ namespace Aggregator.Controllers
             _basket = basketService;
         }
 
+        [ProducesResponseType(typeof(BasketData), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<BasketData>> UpdateQuantitiesAsync([FromBody] UpdateBasketItemsRequest data)
         {
             if (!data.Updates.Any())
@@ -39,9 +41,11 @@ namespace Aggregator.Controllers
 
             await _basket.UpdateAsync(currentBasket);
 
-            return currentBasket;
+            return Ok(currentBasket);
         }
 
+        [ProducesResponseType(typeof(BasketData), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> AddBasketItemAsync([FromBody] AddBasketItemRequest data)
         {
             if (data is null || data.Quantity == 0)
@@ -62,7 +66,7 @@ namespace Aggregator.Controllers
 
             await _basket.UpdateAsync(currentBasket);
 
-            return Ok();
+            return Ok(currentBasket);
         }
     }
 }

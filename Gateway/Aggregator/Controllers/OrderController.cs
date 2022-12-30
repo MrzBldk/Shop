@@ -20,6 +20,8 @@ namespace Aggregator.Controllers
         }
 
         [HttpPost("Create/{basketId}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> CreateOrderFromBasket([FromRoute] string basketId, [FromBody] CreateOrderRequest orderData)
         {
             BasketData basket = await _basketService.GetByIdAsync(basketId);
