@@ -1,5 +1,6 @@
 ﻿using Aggregator.Config;
 using Aggregator.Models;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 
 namespace Aggregator.Services
@@ -9,10 +10,10 @@ namespace Aggregator.Services
         private readonly HttpClient _httpClient;
         private readonly UrlsConfig _urls;
 
-        public CatalogService(HttpClient httpClient, UrlsConfig urls)
+        public CatalogService(HttpClient httpClient, IOptions<UrlsConfig> config)
         {
             _httpClient = httpClient;
-            _urls = urls;
+            _urls = config.Value;
         }
 
         public async Task<CatalogItem> GetCatalogItemAsync(string id)

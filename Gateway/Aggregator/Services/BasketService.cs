@@ -10,7 +10,7 @@ namespace Aggregator.Services
         private readonly HttpClient _apiClient;
         private readonly UrlsConfig _urls;
 
-        public BasketService(HttpClient httpClient, ILogger<BasketService> logger, IOptions<UrlsConfig> config)
+        public BasketService(HttpClient httpClient, IOptions<UrlsConfig> config)
         {
             _apiClient = httpClient;
             _urls = config.Value;

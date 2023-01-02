@@ -82,6 +82,10 @@
         {
           "Name": "ordering_api",
           "DisplayName": "ordering_api"
+        },
+        {
+          "Name": "aggregator",
+          "DisplayName": "aggregator"
         }
       ],
         "ApiResources": [
@@ -101,6 +105,12 @@
             "Name": "ordering_api",
             "Scopes": [
               "ordering_api"
+            ]
+          },
+          {
+            "Name": "aggregator",
+            "Scopes": [
+              "aggregator"
             ]
           },
           {
@@ -226,6 +236,29 @@
             ],
             "AllowedCorsOrigins": [
               "http://localhost:8001"
+            ]
+          },
+          {
+            "ClientId": "aggregator",
+            "ClientName": "aggregator",
+            "AllowedGrantTypes": [
+              "authorization_code"
+            ],
+            "RequireClientSecret": true,
+            "RequirePkce": true,
+            "ClientSecrets": [
+              {
+                "Value": "secret"
+              }
+            ],
+            "RedirectUris": [
+              "http://localhost:5001/swagger/oauth2-redirect.html"
+            ],
+            "AllowedScopes": [
+              "aggregator"
+            ],
+            "AllowedCorsOrigins": [
+              "http://localhost:5001"
             ]
           }
         ]

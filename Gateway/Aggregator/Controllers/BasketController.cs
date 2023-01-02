@@ -18,6 +18,7 @@ namespace Aggregator.Controllers
             _basket = basketService;
         }
 
+        [HttpPut]
         [ProducesResponseType(typeof(BasketData), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<BasketData>> UpdateQuantitiesAsync([FromBody] UpdateBasketItemsRequest data)
@@ -44,6 +45,7 @@ namespace Aggregator.Controllers
             return Ok(currentBasket);
         }
 
+        [HttpPost]
         [ProducesResponseType(typeof(BasketData), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> AddBasketItemAsync([FromBody] AddBasketItemRequest data)
