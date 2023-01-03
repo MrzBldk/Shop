@@ -41,7 +41,7 @@ namespace Ordering.UseCases.Tests
 
             CreateOrderUseCase useCase = new(_orderWriteOnlyRepository, _createLogger);
             Address address = new(street, city, state, country, zipCode);
-            CreateOrderResult result = await useCase.Execute(address);
+            CreateOrderResult result = await useCase.Execute(address, Guid.Empty.ToString());
 
             Assert.Multiple(() =>
             {
@@ -62,9 +62,9 @@ namespace Ordering.UseCases.Tests
         [TestCaseSource(nameof(_sourceLists))]
         public async Task Add_Valid_OrderItem(decimal price, string name, int units)
         {            
-            _orderReadOnlyRepository.Get(Arg.Any<Guid>()).Returns(new Domain.Orders.Order(new ("a", "a", "a", "a", "a")));
+            _orderReadOnlyRepository.Get(Arg.Any<Guid>()).Returns(new Domain.Orders.Order(new ("a", "a", "a", "a", "a"), Guid.Empty));
             AddOrderItemUseCase useCase = new(_orderReadOnlyRepository, _orderWriteOnlyRepository, _addLogger);
-            AddOrderItemResult result = await useCase.Execute(Guid.NewGuid(), price, name, units);
+            AddOrderItemResult result = await useCase.Execute(Guid.NewGuid(), Guid.NewGuid(), price, name, units);
 
             Assert.Multiple(() =>
             {
@@ -79,7 +79,7 @@ namespace Ordering.UseCases.Tests
         [Test]
         public async Task Change_Status_From_Submitted_To_Shipped_Throws()
         {
-            _orderReadOnlyRepository.Get(Arg.Any<Guid>()).Returns(new Domain.Orders.Order(new("a", "a", "a", "a", "a")));
+            _orderReadOnlyRepository.Get(Arg.Any<Guid>()).Returns(new Domain.Orders.Order(new("a", "a", "a", "a", "a"), Guid.Empty));
             SetShippedStatusUseCase useCase = new(_orderReadOnlyRepository, _orderWriteOnlyRepository, _shippedLogger);
             var exception = Assert.ThrowsAsync<DomainException>(async () => await useCase.Execute(Guid.NewGuid()));
             Assert.That(exception.Message, Is.EqualTo("Is not possible to change the order status from submitted to shipped."));
