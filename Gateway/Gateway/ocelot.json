@@ -1,7 +1,7 @@
 {
   "Routes": [
     {
-      "DownstreamPathTemplate": "/api/basket",
+      "DownstreamPathTemplate": "/api/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -9,16 +9,25 @@
           "Port": 80
         }
       ],
-      "UpstreamPathTemplate": "/basket/{everything}",
-      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": []
-      },
+      "UpstreamPathTemplate": "api/b/{everything}",
+      "UpstreamHttpMethod": [],
       "RouteIsCaseSensitive": false
     },
     {
-      "DownstreamPathTemplate": "/api/order",
+      "DownstreamPathTemplate": "/api/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "catalog.api",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "api/c/{everything}",
+      "UpstreamHttpMethod": [ "GET" ],
+      "RouteIsCaseSensitive": false
+    },
+    {
+      "DownstreamPathTemplate": "/api/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -26,8 +35,8 @@
           "Port": 80
         }
       ],
-      "UpstreamPathTemplate": "/order/{everything}",
-      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
+      "UpstreamPathTemplate": "api/o/{everything}",
+      "UpstreamHttpMethod": [],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer",
         "AllowedScopes": []
@@ -35,118 +44,29 @@
       "RouteIsCaseSensitive": false
     },
     {
-      "DownstreamPathTemplate": "/api/order/{everything}",
+      "DownstreamPathTemplate": "/api/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "ordering.api",
+          "Host": "store.api",
           "Port": 80
         }
       ],
-      "UpstreamPathTemplate": "/order/{everything}",
-      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": []
-      },
+      "UpstreamPathTemplate": "api/s/{everything}",
+      "UpstreamHttpMethod": [ "GET" ],
       "RouteIsCaseSensitive": false
     },
     {
-      "DownstreamPathTemplate": "/api/store/{everything}",
+      "DownstreamPathTemplate": "/api/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "ordering.api",
+          "Host": "store.api",
           "Port": 80
         }
       ],
-      "UpstreamPathTemplate": "/store/{everything}",
-      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": []
-      },
-      "RouteIsCaseSensitive": false
-    },
-    {
-      "DownstreamPathTemplate": "/api/brand/{everything}",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "catalog.api",
-          "Port": 80
-        }
-      ],
-      "UpstreamPathTemplate": "/brand/{everything}",
-      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": []
-      },
-      "RouteIsCaseSensitive": false
-    },
-    {
-      "DownstreamPathTemplate": "/api/type/{everything}",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "catalog.api",
-          "Port": 80
-        }
-      ],
-      "UpstreamPathTemplate": "/type/{everything}",
-      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": []
-      },
-      "RouteIsCaseSensitive": false
-    },
-    {
-      "DownstreamPathTemplate": "/api/picture/{everything}",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "catalog.api",
-          "Port": 80
-        }
-      ],
-      "UpstreamPathTemplate": "/picture/{everything}",
-      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": []
-      },
-      "RouteIsCaseSensitive": false
-    },
-    {
-      "DownstreamPathTemplate": "/api/product/{everything}",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "catalog.api",
-          "Port": 80
-        }
-      ],
-      "UpstreamPathTemplate": "/product/{everything}",
-      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": []
-      },
-      "RouteIsCaseSensitive": false
-    },
-    {
-      "DownstreamPathTemplate": "/{url}",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "aggregator",
-          "Port": 80
-        }
-      ],
-      "UpstreamPathTemplate": "/{url}",
-      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
+      "UpstreamPathTemplate": "api/s/{everything}",
+      "UpstreamHttpMethod": [ "POST", "PUT", "DELETE" ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer",
         "AllowedScopes": []

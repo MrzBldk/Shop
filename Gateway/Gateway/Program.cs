@@ -5,7 +5,7 @@ using Ocelot.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Configuration.AddOcelot(builder.Environment);
+builder.Configuration.AddJsonFile("ocelot.json");
 
 builder.Services.AddCors(options =>
 {
