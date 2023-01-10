@@ -73,19 +73,35 @@
         },
         {
           "Name": "catalog_api",
-          "DisplayName": "catalog_api"
+          "DisplayName": "catalog_api",
+          "UserClaims": [
+            "role",
+            "name"
+          ]
         },
         {
           "Name": "store_api",
-          "DisplayName": "store_api"
+          "DisplayName": "store_api",
+          "UserClaims": [
+            "role",
+            "name"
+          ]
         },
         {
           "Name": "ordering_api",
-          "DisplayName": "ordering_api"
+          "DisplayName": "ordering_api",
+          "UserClaims": [
+            "role",
+            "name"
+          ]
         },
         {
           "Name": "aggregator",
-          "DisplayName": "aggregator"
+          "DisplayName": "aggregator",
+          "UserClaims": [
+            "role",
+            "name"
+          ]
         }
       ],
         "ApiResources": [
@@ -255,7 +271,8 @@
               "http://localhost:5001/swagger/oauth2-redirect.html"
             ],
             "AllowedScopes": [
-              "aggregator"
+              "aggregator",
+              "ordering_api"
             ],
             "AllowedCorsOrigins": [
               "http://localhost:5001"

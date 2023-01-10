@@ -24,7 +24,7 @@ builder.Services.AddSwaggerGen(options =>
             {
                 AuthorizationUrl = new Uri("http://localhost:9002/connect/authorize"),
                 TokenUrl = new Uri("http://localhost:9002/connect/token"),
-                Scopes = new Dictionary<string, string> { { "aggregator", "aggregator" } }
+                Scopes = new Dictionary<string, string> { { "aggregator", "aggregator" }, { "ordering_api", "ordering_api" } }
             }
         }
     });
@@ -66,6 +66,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllers();
 

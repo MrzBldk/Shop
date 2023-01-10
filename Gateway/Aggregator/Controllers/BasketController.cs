@@ -55,6 +55,9 @@ namespace Aggregator.Controllers
 
             CatalogItem item = await _catalog.GetCatalogItemAsync(data.CatalogItemId);
 
+            if (item.AvailableStock < data.Quantity)
+                return BadRequest("Available stock lesser than requested quantity");
+
             BasketData currentBasket = (await _basket.GetByIdAsync(data.BasketId)) ?? new(data.BasketId);
             currentBasket.Items.Add(new BasketDataItem()
             {
