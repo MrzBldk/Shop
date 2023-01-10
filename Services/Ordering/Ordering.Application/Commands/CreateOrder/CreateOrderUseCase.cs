@@ -16,9 +16,9 @@ namespace Ordering.Application.Commands.CreateOrder
             _logger = logger;
         }
 
-        public async Task<CreateOrderResult> Execute(Address address)
+        public async Task<CreateOrderResult> Execute(Address address, string userId)
         {
-            Order order = new(address);
+            Order order = new(address, Guid.Parse(userId));
             
             await _orderWriteOnlyRepository.Add(order);
 

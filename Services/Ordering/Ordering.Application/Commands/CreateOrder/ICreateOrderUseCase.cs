@@ -4,6 +4,6 @@ namespace Ordering.Application.Commands.CreateOrder
 {
     public interface ICreateOrderUseCase
     {
-        Task<CreateOrderResult> Execute(Address address);
+        Task<CreateOrderResult> Execute(Address address, string userId);
     }
 }

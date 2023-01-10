@@ -10,8 +10,9 @@ namespace Ordering.Application.Results
         public decimal Price { get; }
         public List<ItemResult> Items { get; }
         public string Status { get; }
+        public Guid UserId { get; }
 
-        public OrderResult(Guid id, string address, DateTime orderDate, decimal price, List<ItemResult> items, string status)
+        public OrderResult(Guid id, string address, DateTime orderDate, decimal price, List<ItemResult> items, string status, Guid userId)
         {
             Id = id;
             Address = address;
@@ -19,6 +20,7 @@ namespace Ordering.Application.Results
             Price = price;
             Items = items;
             Status = status;
+            UserId = userId;
         }
 
         public OrderResult(Order order)
@@ -30,10 +32,11 @@ namespace Ordering.Application.Results
             Items = new();
             foreach (var item in order.Items)
             {
-                ItemResult itemResult = new(item.Name, item.Units, item.UnitPrice);
+                ItemResult itemResult = new(item.Name, item.Units, item.UnitPrice, item.ProductId);
                 Items.Add(itemResult);
             }
             Status = order.OrderStatus.Name;
+            UserId = order.UserId;
         }
     }
 }

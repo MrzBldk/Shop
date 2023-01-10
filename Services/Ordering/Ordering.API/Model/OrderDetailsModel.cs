@@ -1,6 +1,4 @@
-﻿using Ordering.Application.Results;
-
-namespace Ordering.API.Model
+﻿namespace Ordering.API.Model
 {
     public class OrderDetailsModel
     {
@@ -10,8 +8,9 @@ namespace Ordering.API.Model
         public decimal Price { get; }
         public List<OrderItemDetailsModel> Items { get; }
         public string Status { get; }
+        public Guid UserId { get; }
 
-        public OrderDetailsModel(Guid id, string address, DateTime orderDate, decimal price, List<OrderItemDetailsModel> items, string status)
+        public OrderDetailsModel(Guid id, string address, DateTime orderDate, decimal price, List<OrderItemDetailsModel> items, string status, Guid userId)
         {
             Id = id;
             Address = address;
@@ -19,6 +18,7 @@ namespace Ordering.API.Model
             Price = price;
             Items = items;
             Status = status;
+            UserId = userId;
         }
     }
 }

@@ -2,9 +2,12 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
 using Ordering.API;
 using Ordering.API.Filters;
+using Ordering.API.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddTransient<IIdentityService, IdentityService>();
 builder.Services.AddServices(builder.Configuration);
 builder.Services.AddControllers(options =>
 {
@@ -22,7 +25,7 @@ builder.Services.AddAuthentication(options =>
 })
 .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
 {
-    options.Authority = "https://sts.skoruba.local";
+    options.Authority = "http://skoruba-identityserver4-sts-identity";
     options.RequireHttpsMetadata = false;
     options.Audience = "ordering_api";
 });
@@ -44,8 +47,8 @@ builder.Services.AddSwaggerGen(options =>
         {
             AuthorizationCode = new OpenApiOAuthFlow
             {
-                AuthorizationUrl = new Uri("https://sts.skoruba.local/connect/authorize"),
-                TokenUrl = new Uri("https://sts.skoruba.local/connect/token"),
+                AuthorizationUrl = new Uri("http://localhost:9002/connect/authorize"),
+                TokenUrl = new Uri("http://localhost:9002/connect/token"),
                 Scopes = new Dictionary<string, string> { { "ordering_api", "ordering_api" } }
             }
         }
@@ -65,8 +68,6 @@ if (app.Environment.IsDevelopment())
         setup.OAuthUsePkce();
     });
 }
-
-app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();

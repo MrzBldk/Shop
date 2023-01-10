@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Ordering.API.Services;
 using Ordering.Application.Commands.CreateOrder;
 using Ordering.Domain.ValueObjects;
 
@@ -12,9 +13,11 @@ namespace Ordering.API.UseCase.CreateOrder
     public class OrderController : ControllerBase
     {
         ICreateOrderUseCase _createOrderUseCase;
-        public OrderController(ICreateOrderUseCase createOrderUseCase)
+        IIdentityService _identityService;
+        public OrderController(ICreateOrderUseCase createOrderUseCase, IIdentityService identityService)
         {
             _createOrderUseCase = createOrderUseCase;
+            _identityService = identityService;
         }
 
         [HttpPost]
@@ -23,7 +26,7 @@ namespace Ordering.API.UseCase.CreateOrder
         {
             Address address = new(createOrderRequest.Street, createOrderRequest.City,
                 createOrderRequest.State, createOrderRequest.Country, createOrderRequest.ZipCode);
-            CreateOrderResult createOrderResult = await _createOrderUseCase.Execute(address);
+            CreateOrderResult createOrderResult = await _createOrderUseCase.Execute(address, _identityService.UserId);
             
             return Ok(createOrderResult.Order.Id);
         }

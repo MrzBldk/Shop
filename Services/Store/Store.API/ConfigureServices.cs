@@ -38,7 +38,7 @@ namespace Microsoft.Extensions.DependencyInjection
             })
             .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
             {
-                options.Authority = "https://sts.skoruba.local";
+                options.Authority = "http://skoruba-identityserver4-sts-identity";
                 options.RequireHttpsMetadata = false;
                 options.Audience = "store_api";
             });
@@ -60,8 +60,8 @@ namespace Microsoft.Extensions.DependencyInjection
                     {
                         AuthorizationCode = new OpenApiOAuthFlow
                         {
-                            AuthorizationUrl = new Uri("https://sts.skoruba.local/connect/authorize"),
-                            TokenUrl = new Uri("https://sts.skoruba.local/connect/token"),
+                            AuthorizationUrl = new Uri("http://localhost:9002/connect/authorize"),
+                            TokenUrl = new Uri("http://localhost:9002/connect/token"),
                             Scopes = new Dictionary<string, string> { { "store_api", "store_api" } }
                         }
                     }

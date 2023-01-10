@@ -73,15 +73,35 @@
         },
         {
           "Name": "catalog_api",
-          "DisplayName": "catalog_api"
+          "DisplayName": "catalog_api",
+          "UserClaims": [
+            "role",
+            "name"
+          ]
         },
         {
           "Name": "store_api",
-          "DisplayName": "store_api"
+          "DisplayName": "store_api",
+          "UserClaims": [
+            "role",
+            "name"
+          ]
         },
         {
           "Name": "ordering_api",
-          "DisplayName": "ordering_api"
+          "DisplayName": "ordering_api",
+          "UserClaims": [
+            "role",
+            "name"
+          ]
+        },
+        {
+          "Name": "aggregator",
+          "DisplayName": "aggregator",
+          "UserClaims": [
+            "role",
+            "name"
+          ]
         }
       ],
         "ApiResources": [
@@ -104,6 +124,12 @@
             ]
           },
           {
+            "Name": "aggregator",
+            "Scopes": [
+              "aggregator"
+            ]
+          },
+          {
             "Name": "shop_identity_admin_api",
             "Scopes": [
               "shop_identity_admin_api"
@@ -114,7 +140,7 @@
             {
                 "ClientId": "shop_identity_admin",
                 "ClientName": "shop_identity_admin",
-                "ClientUri": "https://admin.skoruba.local",
+                "ClientUri": "http://localhost:9000",
                 "AllowedGrantTypes": [
                     "authorization_code"
                 ],
@@ -125,14 +151,14 @@
                     }
                 ],
                 "RedirectUris": [
-                    "https://admin.skoruba.local/signin-oidc"
+                    "http://localhost:9000/signin-oidc"
                 ],
-                "FrontChannelLogoutUri": "https://admin.skoruba.local/signout-oidc",
+                "FrontChannelLogoutUri": "http://localhost:9000/signout-oidc",
                 "PostLogoutRedirectUris": [
-                    "https://admin.skoruba.local/signout-callback-oidc"
+                    "http://localhost:9000/signout-callback-oidc"
                 ],
                 "AllowedCorsOrigins": [
-                    "https://admin.skoruba.local"
+                    "http://localhost:9000"
                 ],
                 "AllowedScopes": [
                     "openid",
@@ -150,13 +176,13 @@
             "RequireClientSecret": false,
             "RequirePkce": true,
             "RedirectUris": [
-              "https://admin-api.skoruba.local/swagger/oauth2-redirect.html"
+              "http://localhost:9001/swagger/oauth2-redirect.html"
             ],
             "AllowedScopes": [
               "shop_identity_admin_api"
             ],
             "AllowedCorsOrigins": [
-              "https://admin-api.skoruba.local"
+              "http://localhost:9001"
             ]
           },
           {
@@ -173,13 +199,13 @@
               }
             ],
             "RedirectUris": [
-              "https://localhost:8000/swagger/oauth2-redirect.html"
+              "http://localhost:8000/swagger/oauth2-redirect.html"
             ],
             "AllowedScopes": [
               "catalog_api"
             ],
             "AllowedCorsOrigins": [
-              "https://localhost:8000"
+              "http://localhost:8000"
             ]
           },
           {
@@ -196,13 +222,13 @@
               }
             ],
             "RedirectUris": [
-              "https://localhost:8002/swagger/oauth2-redirect.html"
+              "http://localhost:8002/swagger/oauth2-redirect.html"
             ],
             "AllowedScopes": [
               "ordering_api"
             ],
             "AllowedCorsOrigins": [
-              "https://localhost:8002"
+              "http://localhost:8002"
             ]
           },
           {
@@ -219,13 +245,37 @@
               }
             ],
             "RedirectUris": [
-              "https://localhost:8001/swagger/oauth2-redirect.html"
+              "http://localhost:8001/swagger/oauth2-redirect.html"
             ],
             "AllowedScopes": [
               "store_api"
             ],
             "AllowedCorsOrigins": [
-              "https://localhost:8001"
+              "http://localhost:8001"
+            ]
+          },
+          {
+            "ClientId": "aggregator",
+            "ClientName": "aggregator",
+            "AllowedGrantTypes": [
+              "authorization_code"
+            ],
+            "RequireClientSecret": true,
+            "RequirePkce": true,
+            "ClientSecrets": [
+              {
+                "Value": "secret"
+              }
+            ],
+            "RedirectUris": [
+              "http://localhost:5001/swagger/oauth2-redirect.html"
+            ],
+            "AllowedScopes": [
+              "aggregator",
+              "ordering_api"
+            ],
+            "AllowedCorsOrigins": [
+              "http://localhost:5001"
             ]
           }
         ]

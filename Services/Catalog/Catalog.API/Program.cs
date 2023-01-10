@@ -25,7 +25,7 @@ builder.Services.AddAuthentication(options =>
 })
 .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
 {
-    options.Authority = "https://sts.skoruba.local";
+    options.Authority = "http://skoruba-identityserver4-sts-identity";
     options.RequireHttpsMetadata = false;
     options.Audience = "catalog_api";
 });
@@ -47,8 +47,8 @@ builder.Services.AddSwaggerGen(options =>
         {
             AuthorizationCode = new OpenApiOAuthFlow
             {
-                AuthorizationUrl = new Uri("https://sts.skoruba.local/connect/authorize"),
-                TokenUrl = new Uri("https://sts.skoruba.local/connect/token"),
+                AuthorizationUrl = new Uri("http://localhost:9002/connect/authorize"),
+                TokenUrl = new Uri("http://localhost:9002/connect/token"),
                 Scopes = new Dictionary<string, string> { { "catalog_api", "catalog_api" } }
             }
         }
@@ -76,8 +76,6 @@ if (app.Environment.IsDevelopment())
         setup.OAuthUsePkce();
     });
 }
-
-app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();

@@ -1,6 +1,4 @@
-﻿using Ordering.Domain.ValueObjects;
-
-namespace Ordering.Infrastructure.DataAccess.Entities
+﻿namespace Ordering.Infrastructure.DataAccess.Entities
 {
     public class OrderItem
     {
@@ -9,5 +7,7 @@ namespace Ordering.Infrastructure.DataAccess.Entities
         public decimal UnitPrice { get; set; }
         public string Name { get; set; }
         public Guid OrderId { get; set; }
+
+        public Guid ProductId { get; set; }
     }
 }

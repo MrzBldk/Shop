@@ -12,5 +12,7 @@ namespace Ordering.API.UseCase.AddOrderItem
         public string Name { get; set; }
         [Required]
         public int Units { get; set; }
+        [Required]
+        public Guid ProductId { get; set; }
     }
 }
