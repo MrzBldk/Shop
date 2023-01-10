@@ -37,6 +37,13 @@ namespace Aggregator.Controllers
                 {
                     return BadRequest($"Basket item with id {update.BasketItemId} not found");
                 }
+
+                CatalogItem item = await _catalog.GetCatalogItemAsync(update.BasketItemId);
+                if(update.NewQuantity > item.AvailableStock)
+                {
+                    return BadRequest("Available stock is lesser than requested quantity");
+                }
+
                 basketItem.Quantity = update.NewQuantity;
             }
 
@@ -56,7 +63,10 @@ namespace Aggregator.Controllers
             CatalogItem item = await _catalog.GetCatalogItemAsync(data.CatalogItemId);
 
             if (item.AvailableStock < data.Quantity)
-                return BadRequest("Available stock lesser than requested quantity");
+                return BadRequest("Available stock is lesser than requested quantity");
+
+            if (item.IsArchived)
+                return BadRequest("Item is archived");
 
             BasketData currentBasket = (await _basket.GetByIdAsync(data.BasketId)) ?? new(data.BasketId);
             currentBasket.Items.Add(new BasketDataItem()

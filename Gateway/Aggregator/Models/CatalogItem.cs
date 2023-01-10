@@ -10,6 +10,7 @@
         public int AvailableStock { get; set; }
         public string Brand { get; set; }
         public string Type { get; set; }
+        public bool IsArchived { get; set; }
 
         public Guid StoreId { get; set; }
     }

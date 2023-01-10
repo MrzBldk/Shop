@@ -12,7 +12,7 @@ namespace Catalog.DAL.Repositories
 
         private IQueryable<Product> Filter(ProductFilter filter)
         {
-            IQueryable<Product> products = dbSet.AsQueryable();
+            IQueryable<Product> products = dbSet.Where(p => !p.IsArchived);
 
             if (filter.Types is not null && filter.Types.Any())
                 products = products.Where(p => filter.Types.Contains(p.TypeId));
