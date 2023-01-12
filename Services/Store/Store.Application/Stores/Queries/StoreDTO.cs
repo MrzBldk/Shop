@@ -12,6 +12,7 @@ namespace Store.Application.Stores.Queries
         public Guid Id { get; set; }
         public string Name { get; set; }
         public string? Description { get; set; }
+        public bool IsBlocked { get; set; }
 
         public List<StoreSectionDTO> Sections { get; set; }
     }

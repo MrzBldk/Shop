@@ -1,11 +1,6 @@
 ﻿using MediatR;
 using Store.Application.Common.Exceptions;
 using Store.Application.Common.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Store.Application.Stores.Commands.UpdateStore
 {
@@ -19,10 +14,12 @@ namespace Store.Application.Stores.Commands.UpdateStore
     public class UpdateStoreCommandHandler : IRequestHandler<UpdateStoreCommand>
     {
         private readonly IApplicationDbContext _context;
+        private readonly ICurrentUserService _currentUserService;
 
-        public UpdateStoreCommandHandler(IApplicationDbContext context)
+        public UpdateStoreCommandHandler(IApplicationDbContext context, ICurrentUserService currentUserService)
         {
             _context = context;
+            _currentUserService = currentUserService;
         }
 
         public async Task<Unit> Handle(UpdateStoreCommand request, CancellationToken cancellationToken)
@@ -32,6 +29,9 @@ namespace Store.Application.Stores.Commands.UpdateStore
 
             if (entity is null)
                 throw new NotFoundException(nameof(Domain.Entities.Store), request.Id);
+
+            if (entity.UserId != Guid.Parse(_currentUserService.UserId))
+                throw new ForbiddenException(nameof(Domain.Entities.Store), request.Id);
 
             entity.Name = request.Name;
             entity.Description = request.Description;

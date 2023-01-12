@@ -2,20 +2,22 @@
 using Store.Application.Common.Exceptions;
 using Store.Application.Common.Interfaces;
 
-namespace Store.Application.Stores.Commands.DeleteStore
+namespace Store.Application.Stores.Commands.BlockStore
 {
-    public record DeleteStoreCommand(Guid Id) : IRequest;
+    public record BlockStoreCommand(Guid Id) : IRequest
+    {
+    }
 
-    public class DeleteStoreCommandHandler : IRequestHandler<DeleteStoreCommand>
+    public class BlockStoreCommandHandler : IRequestHandler<BlockStoreCommand>
     {
         private readonly IApplicationDbContext _context;
 
-        public DeleteStoreCommandHandler(IApplicationDbContext context)
+        public BlockStoreCommandHandler(IApplicationDbContext context)
         {
             _context = context;
         }
 
-        public async Task<Unit> Handle(DeleteStoreCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(BlockStoreCommand request, CancellationToken cancellationToken)
         {
             Domain.Entities.Store entity = await _context.Stores
                 .FindAsync(new object[] { request.Id }, cancellationToken);
@@ -23,7 +25,8 @@ namespace Store.Application.Stores.Commands.DeleteStore
             if (entity is null)
                 throw new NotFoundException(nameof(Domain.Entities.Store), request.Id);
 
-            _context.Stores.Remove(entity);
+            entity.IsBlocked = true;
+
             await _context.SaveChangesAsync(cancellationToken);
 
             return Unit.Value;

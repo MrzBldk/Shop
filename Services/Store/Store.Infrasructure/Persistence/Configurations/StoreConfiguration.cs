@@ -16,6 +16,9 @@ namespace Store.Infrasructure.Persistence.Configurations
 
             builder.Property(t => t.UserId)
                 .IsRequired();
+
+            builder.Property(t=>t.IsBlocked)
+                .IsRequired();
         }
     }
 }
