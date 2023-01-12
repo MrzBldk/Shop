@@ -1,6 +1,8 @@
 ﻿using MediatR;
 using Store.Application.Common.Exceptions;
 using Store.Application.Common.Interfaces;
+using Store.Application.IntegrationEvents.Events;
+using Store.Application.IntegrationEvents;
 
 namespace Store.Application.Stores.Commands.UnblockStore
 {
@@ -11,10 +13,12 @@ namespace Store.Application.Stores.Commands.UnblockStore
     public class UnblockStoreCommandHandler : IRequestHandler<UnblockStoreCommand>
     {
         private readonly IApplicationDbContext _context;
+        private readonly IStoreIntegrationService _storeIntegrationService;
 
-        public UnblockStoreCommandHandler(IApplicationDbContext context)
+        public UnblockStoreCommandHandler(IApplicationDbContext context, IStoreIntegrationService storeIntegrationService)
         {
             _context = context;
+            _storeIntegrationService = storeIntegrationService;
         }
 
         public async Task<Unit> Handle(UnblockStoreCommand request, CancellationToken cancellationToken)
@@ -27,7 +31,9 @@ namespace Store.Application.Stores.Commands.UnblockStore
 
             entity.IsBlocked = false;
 
-            await _context.SaveChangesAsync(cancellationToken);
+            StoreUnblockedIntegrationEvent storeBlockedEvent = new(request.Id);
+            await _storeIntegrationService.SaveEventAndStoreContextChangesAsync(storeBlockedEvent);
+            await _storeIntegrationService.PublishThrougEcentBusAsync(storeBlockedEvent);
 
             return Unit.Value;
         }

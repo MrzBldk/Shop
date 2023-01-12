@@ -1,19 +1,34 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Autofac;
+using Autofac.Core.Lifetime;
+using EventBus;
+using EventBus.Abstractions;
+using EventBusRabbitMQ;
+using FluentValidation.AspNetCore;
+using IntegrationEventLogEF;
+using IntegrationEventLogEF.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
+using RabbitMQ.Client;
+using Store.API;
 using Store.API.Filters;
 using Store.API.Services;
 using Store.Application.Common.Interfaces;
+using Store.Application.IntegrationEvents;
+using Store.Infrasructure.IntegrationEvents;
 using Store.Infrasructure.Persistence;
-using FluentValidation.AspNetCore;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.OpenApi.Models;
-using Store.API;
+using System.Data.Common;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
     public static class ConfigureServices
     {
-        public static IServiceCollection AddApiServices(this IServiceCollection services)
+        public static IServiceCollection AddApiServices(this IServiceCollection services, IConfiguration configuration)
         {
+
+            services.AddIntegrationServicesAndEventBus(configuration);
+
             services.AddSingleton<ICurrentUserService, CurrentUserService>();
 
             services.AddHttpContextAccessor();
@@ -69,6 +84,46 @@ namespace Microsoft.Extensions.DependencyInjection
                 options.OperationFilter<AuthorizeCheckOperationFilter>();
             });
 
+            return services;
+        }
+
+        private static IServiceCollection AddIntegrationServicesAndEventBus(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddDbContext<IntegrationEventLogContext>(options =>
+                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
+                        builder => builder.MigrationsAssembly(typeof(StoreDbContext).Assembly.FullName)));
+
+            services.AddTransient<Func<DbConnection, IIntegrationEventLogService>>(sp =>
+                (DbConnection c) => new IntegrationEventLogService(c));
+
+            services.AddTransient<IStoreIntegrationService, StoreIntegrationEventService>();
+
+            services.AddSingleton<IRabbitMQPersistentConnection>(sp =>
+            {
+                var logger = sp.GetRequiredService<ILogger<DefaultRabbitMQPersistentConnection>>();
+
+                ConnectionFactory factory = new()
+                {
+                    DispatchConsumersAsync = true,
+                    HostName = "rabbitmq"
+                };
+
+                return new DefaultRabbitMQPersistentConnection(factory, logger);
+            });
+
+            services.AddSingleton<IEventBus, EventBusRabbitMQ.EventBusRabbitMQ>(sp =>
+            {
+                var subscriptionCLientName = "store";
+                var rabbitMQPersistentConnection = sp.GetRequiredService<IRabbitMQPersistentConnection>();
+                var iLifetimeScope = sp.GetRequiredService<ILifetimeScope>();
+                var logger = sp.GetRequiredService<ILogger<EventBusRabbitMQ.EventBusRabbitMQ>>();
+                var eventBusSubcriptionsManager = sp.GetRequiredService<IEventBusSubscriptionsManager>();
+
+                return new(rabbitMQPersistentConnection, logger, iLifetimeScope, eventBusSubcriptionsManager, subscriptionCLientName);
+            });
+
+            services.AddSingleton<IEventBusSubscriptionsManager, InMemoryEventBusSubscriptionsManager>();
+            
             return services;
         }
     }

@@ -33,6 +33,7 @@ services:
       dockerfile: Services/Store/Store.API/Dockerfile
     depends_on:
       - storedb
+      - rabbitmq
 
   storedb:
     image: mcr.microsoft.com/mssql/server:2017-latest
@@ -54,6 +55,7 @@ services:
       dockerfile: Services/Ordering/Ordering.API/Dockerfile
     depends_on:
      - orderingdb
+     - rabbitmq
      
   orderingdb:
     image: mcr.microsoft.com/mssql/server:2017-latest 
@@ -194,6 +196,13 @@ services:
     build:
       context: .
       dockerfile: Gateway/Aggregator/Dockerfile
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: rabbitmq
+    ports:
+      - "15672:15672"
+      - "5672:5672"
 
 volumes:
   catalog-data:
