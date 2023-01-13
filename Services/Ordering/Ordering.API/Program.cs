@@ -1,3 +1,4 @@
+using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
 using Ordering.API;
@@ -5,6 +6,8 @@ using Ordering.API.Filters;
 using Ordering.API.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddTransient<IIdentityService, IdentityService>();
@@ -55,6 +58,7 @@ builder.Services.AddSwaggerGen(options =>
     });
     options.OperationFilter<AuthorizeCheckOperationFilter>();
 });
+builder.Services.AddIntegrationServicesAndEventBus(builder.Configuration);
 
 var app = builder.Build();
 

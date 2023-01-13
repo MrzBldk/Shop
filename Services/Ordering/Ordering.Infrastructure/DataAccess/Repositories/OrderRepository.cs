@@ -63,13 +63,14 @@ namespace Ordering.Infrastructure.DataAccess.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task Update(Order order)
+        public async Task Update(Order order, bool isIntegrationEvent = false)
         {
             Entities.Order orderEntity = await _context.Orders.FindAsync(order.Id);
             if (orderEntity is null)
                 throw new InfrastructureException($"Order with id {order.Id} not found");
             orderEntity.OrderStatus = order.OrderStatus.Id;
-            await _context.SaveChangesAsync();
+            if(!isIntegrationEvent)
+                await _context.SaveChangesAsync();
         }
 
         public async Task Update(Order order, OrderItem item)
