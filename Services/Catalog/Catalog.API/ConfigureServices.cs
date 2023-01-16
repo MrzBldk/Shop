@@ -1,12 +1,12 @@
 ﻿using Autofac;
+using Catalog.API.IntegrationEvents;
+using Catalog.API.IntegrationEvents.EventHandling;
 using EventBus;
 using EventBus.Abstractions;
 using EventBusRabbitMQ;
 using IntegrationEventLogEF;
 using IntegrationEventLogEF.Services;
 using Microsoft.EntityFrameworkCore;
-using Ordering.Application.IntegrationEvents;
-using Ordering.Infrastructure.IntegrationEvents;
 using RabbitMQ.Client;
 using System.Data.Common;
 
@@ -22,7 +22,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddTransient<Func<DbConnection, IIntegrationEventLogService>>(sp =>
                 (DbConnection c) => new IntegrationEventLogService(c));
 
-            services.AddTransient<IOrderingIntegrationEventService, OrderingIntegrationEventService>();
+            services.AddTransient<ICatalogIntegrationEventService, CatalogIntegrationEventService>();
 
             services.AddSingleton<IRabbitMQPersistentConnection>(sp =>
             {
@@ -39,7 +39,7 @@ namespace Microsoft.Extensions.DependencyInjection
 
             services.AddSingleton<IEventBus, EventBusRabbitMQ.EventBusRabbitMQ>(sp =>
             {
-                var subscriptionCLientName = "ordering";
+                var subscriptionCLientName = "catalog";
                 var rabbitMQPersistentConnection = sp.GetRequiredService<IRabbitMQPersistentConnection>();
                 var iLifetimeScope = sp.GetRequiredService<ILifetimeScope>();
                 var logger = sp.GetRequiredService<ILogger<EventBusRabbitMQ.EventBusRabbitMQ>>();
@@ -49,6 +49,9 @@ namespace Microsoft.Extensions.DependencyInjection
             });
 
             services.AddSingleton<IEventBusSubscriptionsManager, InMemoryEventBusSubscriptionsManager>();
+            services.AddTransient<OrderStockConfirmedIntegrationEventHandler>();
+            services.AddTransient<StoreBlockedIntegrationEventHandler>();
+            services.AddTransient<StoreUnblockedIntegrationEventHandler>();
 
             return services;
         }
