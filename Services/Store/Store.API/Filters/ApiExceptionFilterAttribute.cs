@@ -15,6 +15,7 @@ namespace Store.API.Filters
                 { typeof(ValidationException), HandleValidationException },
                 { typeof(NotFoundException), HandleNotFoundException },
                 { typeof(UnauthorizedAccessException), HandleUnauthorizedAccessException },
+                { typeof(ForbiddenException), HandleForbiddenException }
             };
         }
 
@@ -95,6 +96,23 @@ namespace Store.API.Filters
             context.Result = new ObjectResult(details)
             {
                 StatusCode = StatusCodes.Status401Unauthorized
+            };
+
+            context.ExceptionHandled = true;
+        }
+
+        private void HandleForbiddenException(ExceptionContext context)
+        {
+            ProblemDetails details = new()
+            {
+                Status = StatusCodes.Status403Forbidden,
+                Title = "Forbidden",
+                Type = "https://tools.ietf.org/html/rfc7231#section-6.5.3"
+            };
+
+            context.Result = new ObjectResult(details)
+            {
+                StatusCode = StatusCodes.Status403Forbidden
             };
 
             context.ExceptionHandled = true;

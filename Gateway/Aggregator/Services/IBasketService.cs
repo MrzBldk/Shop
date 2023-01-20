@@ -6,5 +6,6 @@ namespace Aggregator.Services
     {
         public Task<BasketData> GetByIdAsync(string id);
         public Task UpdateAsync(BasketData currentBasket);
+        public Task DeleteAsync(string id);
     }
 }

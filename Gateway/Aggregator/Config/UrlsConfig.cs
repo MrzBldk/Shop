@@ -9,6 +9,7 @@
         public class BasketOperations
         {
             public static string GetById(string id) => $"api/Basket/{id}";
+            public static string DeleteById(string id) => $"api/Basket/{id}";
             public static string UpdateBasket() => "api/Basket";
         }
 

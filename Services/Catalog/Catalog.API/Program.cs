@@ -1,3 +1,4 @@
+using Autofac.Extensions.DependencyInjection;
 using Catalog.API;
 using Catalog.API.Mappers;
 using Catalog.BLL.Mappers;
@@ -12,6 +13,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

@@ -30,5 +30,10 @@ namespace Aggregator.Services
 
             await _apiClient.PostAsync(_urls.Basket + UrlsConfig.BasketOperations.UpdateBasket(), basketContent);
         }
+
+        public async Task DeleteAsync(string id)
+        {
+            await _apiClient.DeleteAsync(_urls.Basket + UrlsConfig.BasketOperations.DeleteById(id));
+        }
     }
 }

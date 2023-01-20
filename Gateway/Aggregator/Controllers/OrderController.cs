@@ -35,6 +35,8 @@ namespace Aggregator.Controllers
 
             await _orderClient.AddOrderItems(basket, orderId);
 
+            await _basketService.DeleteAsync(basketId);
+
             return Ok(orderId);
         }
     }

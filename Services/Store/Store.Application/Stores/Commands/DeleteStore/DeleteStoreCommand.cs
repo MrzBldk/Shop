@@ -1,17 +1,12 @@
 ﻿using MediatR;
 using Store.Application.Common.Exceptions;
 using Store.Application.Common.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Store.Application.Stores.Commands.DeleteStore
 {
     public record DeleteStoreCommand(Guid Id) : IRequest;
 
-    public class DeleteStoreCommandHandler
+    public class DeleteStoreCommandHandler : IRequestHandler<DeleteStoreCommand>
     {
         private readonly IApplicationDbContext _context;
 
