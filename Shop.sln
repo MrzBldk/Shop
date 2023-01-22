@@ -90,7 +90,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{33172C47
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventBus.Tests", "Shared\EventBus\Tests\EventBus.Tests\EventBus.Tests.csproj", "{E1D9888D-9ED2-4B3B-A0FF-238941BC4F05}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationEventLogEF", "Shared\EventBus\IntegrationEventLogEF\IntegrationEventLogEF.csproj", "{8317BA47-2DF4-47B7-BE63-7395C0F886ED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IntegrationEventLogEF", "Shared\EventBus\IntegrationEventLogEF\IntegrationEventLogEF.csproj", "{8317BA47-2DF4-47B7-BE63-7395C0F886ED}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{37BD9855-02F5-450E-9A29-B26719F05343}"
+EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "react-spa", "Web\react-spa\react-spa.esproj", "{72BF5600-7B31-44E3-B591-ECCD32136ECB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -218,6 +222,12 @@ Global
 		{8317BA47-2DF4-47B7-BE63-7395C0F886ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8317BA47-2DF4-47B7-BE63-7395C0F886ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8317BA47-2DF4-47B7-BE63-7395C0F886ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72BF5600-7B31-44E3-B591-ECCD32136ECB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72BF5600-7B31-44E3-B591-ECCD32136ECB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72BF5600-7B31-44E3-B591-ECCD32136ECB}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{72BF5600-7B31-44E3-B591-ECCD32136ECB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72BF5600-7B31-44E3-B591-ECCD32136ECB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72BF5600-7B31-44E3-B591-ECCD32136ECB}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -262,6 +272,7 @@ Global
 		{33172C47-C695-4DC9-AB74-AC1CC87734AA} = {F833E2B5-95C8-4B47-A66A-E31AC24A948D}
 		{E1D9888D-9ED2-4B3B-A0FF-238941BC4F05} = {33172C47-C695-4DC9-AB74-AC1CC87734AA}
 		{8317BA47-2DF4-47B7-BE63-7395C0F886ED} = {F833E2B5-95C8-4B47-A66A-E31AC24A948D}
+		{72BF5600-7B31-44E3-B591-ECCD32136ECB} = {37BD9855-02F5-450E-9A29-B26719F05343}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C669F362-4C35-47DD-9273-1E5A9A064624}
