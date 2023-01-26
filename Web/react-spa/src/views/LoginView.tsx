@@ -1,29 +1,35 @@
-import AuthService from "app/auth/authService";
+import AuthService from "app/authService";
 import { FormEvent, useState } from "react"
 
-export function LoginView(){
+export function LoginView() {
 
-    let [login, setLogin] = useState('')
-    let [password, setPassword] = useState('')
+    const [username, setUsername] = useState('')
+    const [password, setPassword] = useState('')
 
-    const handleLogin = (event: FormEvent<HTMLInputElement>) => {
-        setLogin(event.currentTarget.value)
+    const auth = new AuthService()
+
+    const handleUsername = (event: FormEvent<HTMLInputElement>) => {
+        setUsername(event.currentTarget.value)
     };
 
     const handlePassword = (event: FormEvent<HTMLInputElement>) => {
         setPassword(event.currentTarget.value)
     };
 
-    const handleClick = () => {
-        let auth = new AuthService()
-        console.log(auth.login(login, password))
+    const handleLogin = async () => {
+        await auth.login(username, password)
     }
 
-    return(
+    const handleLogout = async () => {
+        await auth.logout()
+    }
+
+    return (
         <>
-        <input value={login} onChange={handleLogin}></input>
-        <input value={password} onChange={handlePassword}></input>
-        <button onClick={handleClick}>Click me</button>
+            <input value={username} onChange={handleUsername}></input>
+            <input value={password} onChange={handlePassword}></input>
+            <button onClick={handleLogin}>Click me</button>
+            <button onClick={handleLogout}>Dom't click me</button>
         </>
     )
 }
