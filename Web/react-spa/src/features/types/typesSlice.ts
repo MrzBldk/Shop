@@ -5,7 +5,7 @@ import typeAPI from "./typeAPI";
 
 export interface TypeState {
     value: Array<Type>
-    status: 'idle' | 'loading' | 'failed'
+    status: 'idle' | 'loading' | 'failed' | 'succeeded'
 }
 
 const initialState: TypeState = {
@@ -31,7 +31,7 @@ export const typesSlice = createSlice({
                 state.status = 'loading'
             })
             .addCase(fetchTypesAsync.fulfilled, (state, action) => {
-                state.status = 'idle'
+                state.status = 'succeeded'
                 state.value = action.payload
             })
             .addCase(fetchTypesAsync.rejected, (state) => {
@@ -40,6 +40,7 @@ export const typesSlice = createSlice({
     }
 })
 
+export const selectTypesStatus = (state: RootState) => state.types.status
 export const selectTypes = (state: RootState) => state.types.value
 
 export default typesSlice.reducer

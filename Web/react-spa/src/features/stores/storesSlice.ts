@@ -16,8 +16,8 @@ const initialState: StoreState = {
 export const fetchStoresAsync = createAsyncThunk(
     'stores/fetch',
     async () => {
-        const stores = await storeAPI.fetchStores();
-        return stores;
+        const stores = await storeAPI.fetchStores()
+        return stores
     }
 )
 

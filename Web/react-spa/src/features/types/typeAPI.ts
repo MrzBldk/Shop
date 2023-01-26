@@ -1,6 +1,6 @@
 import Type from "./type";
 
-const URL: string = process.env.REACT_APP_API_URL + '/api/type'
+const URL: string = process.env.REACT_APP_API_URL + '/api/c/type'
 
 async function fetchTypes() {
     const responce = await fetch(URL, {
@@ -8,8 +8,8 @@ async function fetchTypes() {
     });
 
     if (responce.ok) {
-        const products: Array<Type> = await responce.json()
-        return products;
+        const types: Array<Type> = await responce.json()
+        return types;
     } else {
         return Promise.reject(await responce.text());
     }

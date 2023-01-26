@@ -5,7 +5,7 @@ import brandAPI from "./brandAPI";
 
 export interface brandsState {
     value: Array<Brand>
-    status: 'idle' | 'loading' | 'failed'
+    status: 'idle' | 'loading' | 'failed' | 'succeeded'
 }
 
 const initialState: brandsState = {
@@ -31,7 +31,7 @@ export const brandsSlice = createSlice({
                 state.status = 'loading'
             })
             .addCase(fetchBrandsAsync.fulfilled, (state, action) => {
-                state.status = 'idle'
+                state.status = 'succeeded'
                 state.value = action.payload
             })
             .addCase(fetchBrandsAsync.rejected, (state) => {
@@ -40,6 +40,7 @@ export const brandsSlice = createSlice({
     }
 })
 
+export const selectBrandsStatus = (state: RootState) => state.brands.status
 export const selectBrands = (state: RootState) => state.brands.value
 
 export default brandsSlice.reducer;
