@@ -32,8 +32,9 @@ namespace Store.Application.Stores.Commands.UnblockStore
             entity.IsBlocked = false;
 
             StoreUnblockedIntegrationEvent storeBlockedEvent = new(request.Id);
-            await _storeIntegrationService.SaveEventAndStoreContextChangesAsync(storeBlockedEvent);
+            //await _storeIntegrationService.SaveEventAndStoreContextChangesAsync(storeBlockedEvent);
             await _storeIntegrationService.PublishThrougEcentBusAsync(storeBlockedEvent);
+            await _context.SaveChangesAsync(cancellationToken);
 
             return Unit.Value;
         }

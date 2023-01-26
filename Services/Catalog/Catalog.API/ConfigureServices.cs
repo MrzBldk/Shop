@@ -37,6 +37,8 @@ namespace Microsoft.Extensions.DependencyInjection
                 return new DefaultRabbitMQPersistentConnection(factory, logger);
             });
 
+            services.AddSingleton<IEventBusSubscriptionsManager, InMemoryEventBusSubscriptionsManager>();
+
             services.AddSingleton<IEventBus, EventBusRabbitMQ.EventBusRabbitMQ>(sp =>
             {
                 var subscriptionCLientName = "catalog";
@@ -48,7 +50,6 @@ namespace Microsoft.Extensions.DependencyInjection
                 return new(rabbitMQPersistentConnection, logger, iLifetimeScope, eventBusSubcriptionsManager, subscriptionCLientName);
             });
 
-            services.AddSingleton<IEventBusSubscriptionsManager, InMemoryEventBusSubscriptionsManager>();
             services.AddTransient<OrderStockConfirmedIntegrationEventHandler>();
             services.AddTransient<StoreBlockedIntegrationEventHandler>();
             services.AddTransient<StoreUnblockedIntegrationEventHandler>();

@@ -15,6 +15,7 @@ namespace Ordering.Application.Commands.SetAwaitingValidationStatus
         {
             _orderReadOnlyRepository = orderReadOnlyRepository;
             _orderWriteOnlyRepository = orderWriteOnlyRepository;
+            _logger = logger;
         }
 
         public async Task Execute(Guid orderId)

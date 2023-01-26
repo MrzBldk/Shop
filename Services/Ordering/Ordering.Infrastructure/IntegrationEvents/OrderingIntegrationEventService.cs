@@ -32,20 +32,20 @@ namespace Ordering.Infrastructure.IntegrationEvents
             _logger = logger;
         }
 
-        public async Task PublishThrougEcentBusAsync(IntegrationEvent evt)
+        public async Task PublishThrougEventBusAsync(IntegrationEvent evt)
         {
             try
             {
                 _logger.LogInformation("----- Publishing integration event: {IntegrationEventId_published} from {AppName} - ({@IntegrationEvent})", evt.Id, "Store", evt);
 
-                await _eventLogService.MarkEventAsInProgressAsync(evt.Id);
+                //await _eventLogService.MarkEventAsInProgressAsync(evt.Id);
                 _eventBus.Publish(evt);
-                await _eventLogService.MarkEventAsPublishedAsync(evt.Id);
+                //await _eventLogService.MarkEventAsPublishedAsync(evt.Id);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "ERROR Publishing integration event: {IntegrationEventId} from {AppName} - ({@IntegrationEvent})", evt.Id, "Store", evt);
-                await _eventLogService.MarkEventAsFailedAsync(evt.Id);
+                //await _eventLogService.MarkEventAsFailedAsync(evt.Id);
             }
         }
 

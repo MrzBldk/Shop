@@ -1,5 +1,7 @@
 using Autofac.Extensions.DependencyInjection;
 using Catalog.API;
+using Catalog.API.IntegrationEvents.EventHandling;
+using Catalog.API.IntegrationEvents.Events;
 using Catalog.API.Mappers;
 using Catalog.BLL.Mappers;
 using Catalog.BLL.Services;
@@ -8,6 +10,7 @@ using Catalog.DAL.Context;
 using Catalog.DAL.Entities;
 using Catalog.DAL.Repositories;
 using Catalog.DAL.Repositories.Interfaces;
+using EventBus.Abstractions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
@@ -16,6 +19,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
 
+builder.Services.AddIntegrationServicesAndEventBus(builder.Configuration);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddAuthentication(options =>
@@ -84,5 +88,10 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+var eventBus = app.Services.GetRequiredService<IEventBus>();
+eventBus.Subscribe<OrderStockConfirmedIntegrationEvent, OrderStockConfirmedIntegrationEventHandler>();
+eventBus.Subscribe<StoreBlockedIntegrationEvent, StoreBlockedIntegrationEventHandler>();
+eventBus.Subscribe<StoreUnblockedIntegrationEvent, StoreUnblockedIntegrationEventHandler>();
 
 app.Run();

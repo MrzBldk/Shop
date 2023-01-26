@@ -20,7 +20,7 @@ namespace Ordering.Infrastructure.DataAccess.Repositories
             if (orderEntity is null)
                 throw new InfrastructureException($"Order with id {id} not found");
 
-            List<Entities.OrderItem> orderItemEntities = await _context.OrderItems.Where(e => e.Id == id).ToListAsync();
+            List<Entities.OrderItem> orderItemEntities = await _context.OrderItems.Where(e => e.OrderId == id).ToListAsync();
 
             ItemsCollection itemsCollection = new();
             foreach (var item in orderItemEntities)
@@ -79,6 +79,7 @@ namespace Ordering.Infrastructure.DataAccess.Repositories
             {
                 Id = item.Id,
                 OrderId = order.Id,
+                ProductId = item.ProductId,
                 Name = item.Name,
                 UnitPrice = item.UnitPrice,
                 Units = item.Units

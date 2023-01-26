@@ -32,11 +32,11 @@ namespace Ordering.Application.Commands.SetStockConfirmedStatus
             order.SetStockConfirmedStatus();
 
             _logger.LogInformation("Order {id} status changed to {newStatus}", orderId, order.OrderStatus.ToString());
-            await _orderWriteOnlyRepository.Update(order, true);
+            await _orderWriteOnlyRepository.Update(order);
 
             OrderStockConfirmedIntegrationEvent orderStockConfirmedIntegrationEvent = new(orderId, order.Items);
-            await _orderingIntegrationEventService.SaveEventAndOrderingContextChangesAsync(orderStockConfirmedIntegrationEvent);
-            await _orderingIntegrationEventService.PublishThrougEcentBusAsync(orderStockConfirmedIntegrationEvent);
+            //await _orderingIntegrationEventService.SaveEventAndOrderingContextChangesAsync(orderStockConfirmedIntegrationEvent);
+            await _orderingIntegrationEventService.PublishThrougEventBusAsync(orderStockConfirmedIntegrationEvent);
         }
     }
 }

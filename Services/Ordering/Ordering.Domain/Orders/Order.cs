@@ -44,7 +44,7 @@ namespace Ordering.Domain.Orders
                 _items = items,
                 OrderDate = orderDate,
                 _orderStatusId = orderStatus,
-                OrderStatus = OrderStatus.Submitted,
+                OrderStatus = OrderStatus.From(orderStatus),
                 UserId = userId
             };
             return order;
