@@ -4,12 +4,14 @@ import { MainView } from 'views/MainView';
 import { ProductView } from 'views/ProductView';
 import { StoreView } from 'views/StoreView';
 import { LoginView } from 'views/LoginView';
+import { StoresListView } from 'views/StoresListView';
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<MainView/>} />
         <Route path='/product/:id' element={<ProductView />} />
+        <Route path='/stores' element={<StoresListView />} />
         <Route path='/store/:id' element={<StoreView />} />
         <Route path='/counter' element={<Counter />} />
         <Route path='/login' element={<LoginView />} />

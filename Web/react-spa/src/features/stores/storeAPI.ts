@@ -8,7 +8,7 @@ async function fetchStores() {
     })
 
     if (responce.ok) {
-        const stores: Array<Store> = await responce.json()
+        const stores: Array<Store> = (await responce.json()).stores
         return stores;
     } else {
         return Promise.reject(await responce.text());

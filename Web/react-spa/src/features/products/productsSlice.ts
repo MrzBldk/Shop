@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "app/store";
 import Product from "./product";
-import ProductAPI, { ProductFilter } from "./productAPI";
+import ProductAPI from "./productAPI";
 
 export interface productsState {
     value: Array<Product>
@@ -13,17 +13,10 @@ const initialState: productsState = {
     status: 'idle'
 }
 
-export interface fetchProductsParams {
-    skip?: number,
-    take?: number,
-    filter?: ProductFilter
-}
-
 export const fetchProductsAsync = createAsyncThunk(
     'products/fetch',
-    async (data: fetchProductsParams) => {
-        const { skip, take, filter } = data
-        const products = await ProductAPI.fetchProducts(skip, take, filter)
+    async () => {
+        const products = await ProductAPI.fetchProducts()
         return products;
     }
 )
@@ -49,8 +42,8 @@ export const productsSlice = createSlice({
 
 export const selectProductsStatus = (state: RootState) => state.products.status
 export const selectProducts = (state: RootState) => state.products.value
-export const selectFilteredProducts = (state: RootState, filter: string) =>
-    state.products.value.filter(p => p.name.toLowerCase().includes(filter.toLowerCase()))
 export const selectProductById = (state: RootState, id: string) => state.products.value.find(p => p.id === id)
+export const selectProductsByStoreId = (state: RootState, storeId: string) =>
+    state.products.value.filter(p => p.storeId === storeId)
 
 export default productsSlice.reducer

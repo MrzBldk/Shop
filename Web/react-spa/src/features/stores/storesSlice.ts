@@ -5,7 +5,7 @@ import storeAPI from "./storeAPI"
 
 export interface StoreState {
     value: Array<Store>
-    status: 'idle' | 'loading' | 'failed'
+    status: 'idle' | 'loading' | 'failed' | 'succeeded'
 }
 
 const initialState: StoreState = {
@@ -31,7 +31,7 @@ export const storesSlice = createSlice({
                 state.status = 'loading'
             })
             .addCase(fetchStoresAsync.fulfilled, (state, action) => {
-                state.status = 'idle'
+                state.status = 'succeeded'
                 state.value = action.payload
             })
             .addCase(fetchStoresAsync.rejected, (state) => {
@@ -41,5 +41,6 @@ export const storesSlice = createSlice({
 })
 
 export const selectStores = (state: RootState) => state.stores.value
+export const selectStoresStatus = (state: RootState) => state.stores.status
 
 export default storesSlice.reducer

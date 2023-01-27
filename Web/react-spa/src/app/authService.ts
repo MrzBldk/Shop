@@ -1,7 +1,9 @@
 import { UserManager, UserManagerSettings } from "oidc-client-ts";
 
-export default class AuthService {
-    userManager: UserManager;
+class AuthService {
+    userManager: UserManager
+    #callbacks: Array<{ callback: Function, subscription: number }> = []
+    #nextSubscriptionId = 0;
 
     constructor() {
         const settings: UserManagerSettings = {
@@ -12,6 +14,29 @@ export default class AuthService {
             scope: 'spa'
         };
         this.userManager = new UserManager(settings);
+    }
+
+    subscribe(callback: Function) {
+        this.#callbacks.push({ callback, subscription: this.#nextSubscriptionId++ });
+        return this.#nextSubscriptionId - 1;
+    }
+
+    unsubscribe(subscriptionId: number) {
+        const subscriptionIndex = this.#callbacks
+            .map((element, index) => element.subscription === subscriptionId ? { found: true, index } : { found: false })
+            .filter(element => element.found === true);
+
+        if (subscriptionIndex.length !== 1) {
+            throw new Error(`Found an invalid number of subscriptions ${subscriptionIndex.length}`);
+        }
+        this.#callbacks.splice(subscriptionIndex[0].index!, 1);
+    }
+
+    notifySubscribers() {
+        for (let i = 0; i < this.#callbacks.length; i++) {
+            const callback = this.#callbacks[i].callback;
+            callback();
+        }
     }
 
     public async isAuthenticated() {
@@ -34,7 +59,7 @@ export default class AuthService {
             return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
         }).join(''));
 
-        return JSON.parse(jsonPayload).id;
+        return JSON.parse(jsonPayload).role;
     }
 
     public async getToken() {
@@ -58,10 +83,17 @@ export default class AuthService {
     }
 
     public async login(username: string, password: string) {
-        return await this.userManager.signinResourceOwnerCredentials({ username, password, skipUserInfo: false })
+        const user = await this.userManager.signinResourceOwnerCredentials({ username, password, skipUserInfo: false })
+        this.notifySubscribers()
+        return user
     }
 
-    public logout(): Promise<void> {
-        return this.userManager.signoutSilent();
+    public async logout() {
+        await this.userManager.signoutSilent();
+        this.notifySubscribers()
     }
 }
+
+const authService = new AuthService()
+
+export default authService

@@ -1,18 +1,18 @@
 import { useAppDispatch, useAppSelector } from "app/hooks"
-import { fetchProductsAsync, selectProducts, selectProductsStatus } from "features/products/productsSlice"
+import { fetchProductsAsync, selectProductsByStoreId, selectProductsStatus } from "features/products/productsSlice"
 import { useEffect } from "react"
 import { ProductExcerpt } from "./ProductExcerpt"
 import { Spinner } from "./Spinner"
 
-export function StoreProductsList() {
+export function StoreProductsList({storeId} : {storeId: string}) {
 
     const dispatch = useAppDispatch()
-    let products = useAppSelector(selectProducts)
+    const products = useAppSelector((state) => selectProductsByStoreId(state, storeId))
     const productsStatus = useAppSelector(selectProductsStatus)
 
     useEffect(() => {
         if (productsStatus === 'idle') {
-            dispatch(fetchProductsAsync({ skip: 0, take: 10 }))
+            dispatch(fetchProductsAsync())
         }
     }, [productsStatus, dispatch])
 

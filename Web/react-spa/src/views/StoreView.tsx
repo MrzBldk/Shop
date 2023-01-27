@@ -22,7 +22,7 @@ export function StoreView() {
         <>
             <h1>{store.name}</h1>
             <h2>{store.description}</h2>
-            <StoreProductsList />
+            <StoreProductsList storeId={id!}/>
         </>
     )
 }

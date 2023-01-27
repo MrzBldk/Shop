@@ -1,12 +1,16 @@
-import AuthService from "app/authService";
+import authService from "app/authService";
+import { useQuery } from "app/hooks";
 import { FormEvent, useState } from "react"
+import { useNavigate } from "react-router-dom";
 
 export function LoginView() {
 
+    const query = useQuery();
+    const returnUrl = query.get('returnUrl')
+    const navigate = useNavigate()
+
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
-
-    const auth = new AuthService()
 
     const handleUsername = (event: FormEvent<HTMLInputElement>) => {
         setUsername(event.currentTarget.value)
@@ -17,11 +21,16 @@ export function LoginView() {
     };
 
     const handleLogin = async () => {
-        await auth.login(username, password)
+        await authService.login(username, password)
+        if (!!returnUrl) {
+            navigate('/' + returnUrl)
+        } else {
+            navigate('/')
+        }
     }
 
     const handleLogout = async () => {
-        await auth.logout()
+        await authService.logout()
     }
 
     return (

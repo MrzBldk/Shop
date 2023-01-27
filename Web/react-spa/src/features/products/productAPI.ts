@@ -1,4 +1,3 @@
-import { objToQueryString } from "app/utils";
 import Product from "./product";
 
 const URL: string = process.env.REACT_APP_API_URL + '/api/c/product'
@@ -23,10 +22,8 @@ async function fetchProduct(id: string) {
     }
 }
 
-async function fetchProducts(skip: number = 0, take: number = 10, filter?: ProductFilter) {
-    let params = objToQueryString({skip, take, ...filter}) 
-    
-    const responce = await fetch(URL + params, {
+async function fetchProducts() {    
+    const responce = await fetch(URL, {
         method: 'GET'
     });
 
