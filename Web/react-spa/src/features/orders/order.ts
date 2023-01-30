@@ -4,7 +4,7 @@ export default class Order {
     constructor(
         public id: string,
         public address: string,
-        public orderDate: Date,
+        public orderDate: string,
         public price: number,
         public status: string,
         public userId: string,

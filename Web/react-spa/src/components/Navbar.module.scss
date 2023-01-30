@@ -1,0 +1,53 @@
+.navbar {
+    display: flex;
+    padding: 0;
+    background: #764abc;
+
+    section {
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 0 1.5rem;
+        width: 100%;
+    }
+
+    section h1,
+    section {
+        color: white;
+    }
+
+    a,
+    a:active {
+        font-weight: 700;
+        padding: 0.25rem 1.5rem;
+        border-radius: 4px;
+        color: white !important;
+        background: #481499;
+
+        &:first-of-type {
+            margin-left: -1.5rem;
+        }
+
+        &:hover {
+            color: white;
+            background: #926bcf;
+        }
+    }
+
+    &__navContent {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    &__navLinks {
+        display: flex;
+
+        a {
+            margin-left: 5px;
+        }
+
+        &:first-child {
+            margin-left: 0;
+        }
+    }
+}

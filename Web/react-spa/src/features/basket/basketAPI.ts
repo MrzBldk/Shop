@@ -15,6 +15,18 @@ async function fetchBasket(buyerId: string) {
     }
 }
 
-const basketAPI = {fetchBasket}
+async function clearBasket(buyerId: string) {
+    const responce = await fetch(URL + `/${buyerId}`, {
+        method: 'DELETE'
+    })
+
+    if (responce.ok) {
+        return Promise.resolve();
+    } else {
+        return Promise.reject(await responce.text());
+    }
+}
+
+const basketAPI = { fetchBasket, clearBasket }
 
 export default basketAPI

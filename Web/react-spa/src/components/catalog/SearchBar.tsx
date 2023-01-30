@@ -1,12 +1,11 @@
 import { FormEvent } from "react";
 
-export interface SearchBarProps{
+export interface SearchBarProps {
     onSearchTermChange: (value: string) => void
     searchTerm: string
 }
 
-export function SearchBar({onSearchTermChange, searchTerm}: SearchBarProps,) {
-
+export function SearchBar({ onSearchTermChange, searchTerm }: SearchBarProps,) {
 
     const handleSearch = (event: FormEvent<HTMLInputElement>) => {
         onSearchTermChange(event.currentTarget.value)

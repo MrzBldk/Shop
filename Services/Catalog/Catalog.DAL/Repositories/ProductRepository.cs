@@ -35,5 +35,13 @@ namespace Catalog.DAL.Repositories
         {
             return Filter(filter).Skip(skip).Take(take).ToListAsync();
         }
+
+        public override async Task<Product> FindById(Guid id)
+        {
+            return await dbSet
+                .Include(p => p.Brand)
+                .Include(p => p.Type)
+                .FirstOrDefaultAsync(p => p.Id == id);
+        }
     }
 }

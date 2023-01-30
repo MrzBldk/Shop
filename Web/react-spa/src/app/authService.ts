@@ -1,4 +1,5 @@
-import { UserManager, UserManagerSettings } from "oidc-client-ts";
+import { UserManager, UserManagerSettings, WebStorageStateStore } from "oidc-client-ts";
+import { decodeJWT } from "./utils";
 
 class AuthService {
     userManager: UserManager
@@ -11,7 +12,8 @@ class AuthService {
             client_id: "spa",
             redirect_uri: "http://localhost:3000",
             client_secret: process.env.REACT_APP_CLIENT_SECRET,
-            scope: 'spa'
+            scope: 'spa',
+            userStore: new WebStorageStateStore({ store: localStorage })
         };
         this.userManager = new UserManager(settings);
     }
@@ -53,13 +55,16 @@ class AuthService {
             return null
         }
         const token = user.access_token
-        const base64Url = token.split('.')[1];
-        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-        const jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
-            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-        }).join(''));
+        return decodeJWT(token).role;
+    }
 
-        return JSON.parse(jsonPayload).role;
+    public async getUserId() {
+        const user = await this.userManager.getUser();
+        if (!user) {
+            return null
+        }
+        const token = user.access_token
+        return decodeJWT(token).sub;
     }
 
     public async getToken() {
@@ -73,13 +78,7 @@ class AuthService {
             return null
         }
         const token = user.access_token
-        const base64Url = token.split('.')[1];
-        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-        const jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
-            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-        }).join(''));
-
-        return JSON.parse(jsonPayload).name;
+        return decodeJWT(token).name
     }
 
     public async login(username: string, password: string) {
@@ -89,7 +88,7 @@ class AuthService {
     }
 
     public async logout() {
-        await this.userManager.signoutSilent();
+        await this.userManager.removeUser();
         this.notifySubscribers()
     }
 }

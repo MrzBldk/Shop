@@ -1,4 +1,5 @@
 import { useAppDispatch, useAppSelector } from "app/hooks"
+import { StoreExcerpt } from "components/storesList/StoreExcerpt"
 import { fetchStoresAsync, selectStores, selectStoresStatus } from "features/stores/storesSlice"
 import { useEffect } from "react"
 
@@ -15,8 +16,8 @@ export function StoresListView() {
     }, [storesStatus, dispatch])
 
     return (
-        <>
-            {stores.map(s => <p key={s.id}>{s.name}</p>)}
-        </>
+        <section className="container">
+            {stores.map(s => <StoreExcerpt key={s.id} store={s} />)}
+        </section>
     )
 }

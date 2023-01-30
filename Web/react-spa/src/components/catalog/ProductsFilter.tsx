@@ -2,22 +2,23 @@ import { useAppDispatch, useAppSelector } from "app/hooks"
 import { fetchBrandsAsync, selectBrands, selectBrandsStatus } from "features/brands/brandsSlice"
 import { fetchTypesAsync, selectTypesStatus, selectTypes } from "features/types/typesSlice"
 import { FormEvent, useEffect } from "react"
+import styles from './ProductFilter.module.scss'
 
-export interface ProductsFilterProps{
+export interface ProductsFilterProps {
     onSelectedTypesChange: (value: Array<string>) => void
     onSelectedBrandsChange: (value: Array<string>) => void
     selectedTypes: Array<string>
     selectedBrands: Array<string>
 }
 
-export function ProductsFilter({onSelectedTypesChange, onSelectedBrandsChange, selectedTypes, selectedBrands} : ProductsFilterProps) {
+export function ProductsFilter({ onSelectedTypesChange, onSelectedBrandsChange, selectedTypes, selectedBrands }: ProductsFilterProps) {
     const dispatch = useAppDispatch()
     const brands = useAppSelector(selectBrands)
     const types = useAppSelector(selectTypes)
     const brandsStatus = useAppSelector(selectBrandsStatus)
     const typesStatus = useAppSelector(selectTypesStatus)
 
-    const handleChange = (event : FormEvent<HTMLSelectElement>) => {
+    const handleChange = (event: FormEvent<HTMLSelectElement>) => {
         const value = Array.from(event.currentTarget.selectedOptions, option => option.value);
         event.currentTarget.name === 'types' ? onSelectedTypesChange(value) : onSelectedBrandsChange(value)
     }
@@ -33,10 +34,10 @@ export function ProductsFilter({onSelectedTypesChange, onSelectedBrandsChange, s
 
     return (
         <>
-            <select value={selectedBrands} name="brands" multiple onChange={handleChange}>
+            <select value={selectedBrands} className={styles.catalog__select} name="brands" multiple onChange={handleChange}>
                 {brands.map(brand => <option key={brand.id} value={brand.name}>{brand.name}</option>)}
             </select>
-            <select value={selectedTypes} name="types" multiple onChange={handleChange}>
+            <select value={selectedTypes} className={styles.catalog__select} name="types" multiple onChange={handleChange}>
                 {types.map(type => <option key={type.id} value={type.name}>{type.name}</option>)}
             </select>
         </>

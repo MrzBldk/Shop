@@ -1,10 +1,17 @@
+import authService from "app/authService";
 import Order from "./order";
 
 const URL: string = process.env.REACT_APP_API_URL + '/api/o/order'
 
 async function fetchOrders() {
+
+    const token = await authService.getToken()
+
     const responce = await fetch(URL, {
-        method: 'GET'
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
     })
 
     if (responce.ok) {
@@ -16,8 +23,14 @@ async function fetchOrders() {
 }
 
 async function fetchUserOrders(userId: string) {
+
+    const token = await authService.getToken()
+
     const responce = await fetch(URL + `/ByUser/${userId}`, {
-        method: 'GET'
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
     })
 
     if (responce.ok) {

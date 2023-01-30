@@ -5,7 +5,6 @@ import brandsReducer from 'features/brands/brandsSlice'
 import typesReducer from 'features/types/typesSlice'
 import storesReducer from 'features/stores/storesSlice'
 import ordersReducer from 'features/orders/ordersSlice'
-import basketReducer from 'features/basket/basketSlice'
 
 export const store = configureStore({
   reducer: {
@@ -15,7 +14,6 @@ export const store = configureStore({
     types: typesReducer,
     stores: storesReducer,
     orders: ordersReducer,
-    basket: basketReducer
   },
 })
 

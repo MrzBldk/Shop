@@ -1,0 +1,9 @@
+.catalog__select {
+    width: 49%;
+    display: inline;
+    margin-right: 2%;
+
+    &:last-of-type {
+        margin-right: 0;
+    }
+}

@@ -69,6 +69,10 @@ namespace Aggregator.Controllers
                 return BadRequest("Item is archived");
 
             BasketData currentBasket = (await _basket.GetByIdAsync(data.BasketId)) ?? new(data.BasketId);
+
+            if (currentBasket.Items.Any(item => item.ProductId == data.CatalogItemId))
+                return BadRequest("Item is already added to basket");
+
             currentBasket.Items.Add(new BasketDataItem()
             {
                 UnitPrice = item.Price,

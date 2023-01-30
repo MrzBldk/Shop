@@ -20,9 +20,9 @@ export function AuthorizeRoute({ element, path }: { element: React.Component, pa
     }
 
     useEffect(() => {
-        let subscription = authService.subscribe(authenticationChanged)
+        const subscription = authService.subscribe(authenticationChanged)
         populateAuthenticationState()
-        return () => { authService.unsubscribe(subscription) }
+        return () => authService.unsubscribe(subscription)
     })
     
     return (

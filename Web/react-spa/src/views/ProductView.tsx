@@ -1,13 +1,16 @@
+import authService from "app/authService"
+import { ImageSlider } from "components/product/ImageSlider"
 import Product from "features/products/product"
 import ProductAPI from "features/products/productAPI"
 import { useEffect, useState } from "react"
+import { Toaster, toast } from "react-hot-toast"
 import { Link, useParams } from "react-router-dom"
 
 export function ProductView() {
     let { id } = useParams()
 
     const [product, setProduct] = useState(new Product())
-
+    const isAvailble = product.availableStock > 0 && !product.isArchived
     useEffect(() => {
         let ignore = false
         const fetch = async () => {
@@ -19,15 +22,44 @@ export function ProductView() {
     }, [id])
 
 
+    const handleButtonClick = async () => {
+
+        const basketId = await authService.getUserId()
+
+        const responce = await fetch(process.env.REACT_APP_API_URL + '/api/agg/basket', {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ catalogItemId: product.id, quantity: 1, basketId })
+        })
+
+        if (responce.ok) {
+            toast.success('Added to Basket!')
+        } else {
+            toast.error(await responce.text())
+        }
+    }
+
     return (
-        <>
-            <p>Name: {product.name}</p>
-            <p>Description: {product.description}</p>
-            <p>Price: {product.price}</p>
-            <p>Brand: {product.brand}</p>
-            <p>Type: {product.type}</p>
-            <p>Available: {product.availableStock}</p>
-            <Link to={`/store/${product.storeId}`}>Go to store</Link>
-        </>
+        <section className="container">
+            <ImageSlider slides={product.picturesUris} />
+            <h2>{product.name}</h2>
+            <p>{product.type} from {product.brand}, <b><big>{product.price}$</big></b></p>
+            <p>{product.description}</p>
+            <Link className="button accent-button"
+                to={`/store/${product.storeId}`}>
+                Go to Store
+            </Link> <button
+                disabled={!isAvailble}
+                className={isAvailble ? 'button' : 'muted-button'}
+                onClick={handleButtonClick}>
+                Add to Basket
+            </button>
+            <Toaster
+                position="bottom-right"
+                reverseOrder={false}
+            />
+        </section>
     )
 }

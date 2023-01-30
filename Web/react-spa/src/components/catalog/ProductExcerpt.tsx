@@ -1,13 +1,15 @@
 import Product from "features/products/product";
 import { Link } from "react-router-dom";
+import styles from './ProductExcerpt.module.scss'
 
 export function ProductExcerpt({ product }: { product: Product }) {
     return (
-        <article>
+        <article className={styles['product-excerpt']}>
             <img src={product.picturesUris[0]} alt={product.name} />
             <div>
-                <h3>{product.name}</h3>
-                <Link to={`/product/${product.id}`}>
+                <h4>{product.name}</h4>
+                <p>Price: {product.price}$</p>
+                <Link className="button" to={`/product/${product.id}`}>
                     View Product Info
                 </Link>
             </div>

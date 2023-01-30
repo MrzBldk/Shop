@@ -1,10 +1,10 @@
-import { ProductsFilter } from "components/ProductsFilter"
-import { MainProductsList } from "components/MainProductsList"
-import { SearchBar } from "components/SearchBar"
+import { ProductsFilter } from "components/catalog/ProductsFilter"
+import { CatalogProductsList } from "components/catalog/CatalogProductsList"
+import { SearchBar } from "components/catalog/SearchBar"
 import { useState } from "react"
 
 
-export function MainView() {
+export function CatalogView() {
 
     const [searchTerm, updateSearchTerm] = useState('')
     const [selectedTypes, setSelectedTypes] = useState(new Array<string>())
@@ -23,12 +23,12 @@ export function MainView() {
     }
 
     return (
-        <>
+        <section className="container margin-top">
             <SearchBar searchTerm={searchTerm} onSearchTermChange={handleSearchTermChange} />
             <ProductsFilter selectedBrands={selectedBrands} selectedTypes={selectedTypes}
                 onSelectedBrandsChange={handleSelectedBrandsChange}
                 onSelectedTypesChange={handleSelectedTypesChange} />
-            <MainProductsList filter={searchTerm} types={selectedTypes} brands={selectedBrands} />
-        </>
+            <CatalogProductsList filter={searchTerm} types={selectedTypes} brands={selectedBrands} />
+        </section>
     )
 }

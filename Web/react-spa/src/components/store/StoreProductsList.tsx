@@ -1,8 +1,9 @@
 import { useAppDispatch, useAppSelector } from "app/hooks"
 import { fetchProductsAsync, selectProductsByStoreId, selectProductsStatus } from "features/products/productsSlice"
 import { useEffect } from "react"
-import { ProductExcerpt } from "./ProductExcerpt"
-import { Spinner } from "./Spinner"
+import { ProductExcerpt } from "../catalog/ProductExcerpt"
+import { Spinner } from "../Spinner"
+import styles from './StoreProductsList.module.scss'
 
 export function StoreProductsList({storeId} : {storeId: string}) {
 
@@ -20,7 +21,9 @@ export function StoreProductsList({storeId} : {storeId: string}) {
         <>
             {productsStatus === 'loading' ?
                 <Spinner text="Loading..." /> :
-                products.map(p => <ProductExcerpt key={p.id} product={p} />)}
+                <section className={styles['store__products-list']}>
+                    {products.map(p => <ProductExcerpt key={p.id} product={p} />)}
+                </section>}
         </>
     )
 }

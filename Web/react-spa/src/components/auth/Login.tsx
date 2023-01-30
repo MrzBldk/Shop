@@ -3,7 +3,7 @@ import { useQuery } from "app/hooks";
 import { FormEvent, useState } from "react"
 import { useNavigate } from "react-router-dom";
 
-export function LoginView() {
+export function Login() {
 
     const query = useQuery();
     const returnUrl = query.get('returnUrl')
@@ -11,14 +11,19 @@ export function LoginView() {
 
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
+    const [showPass, setShowPass] = useState(false)
 
     const handleUsername = (event: FormEvent<HTMLInputElement>) => {
         setUsername(event.currentTarget.value)
-    };
+    }
 
     const handlePassword = (event: FormEvent<HTMLInputElement>) => {
         setPassword(event.currentTarget.value)
-    };
+    }
+
+    const handleCheckbox = () => {
+        setShowPass(!showPass)
+    }
 
     const handleLogin = async () => {
         await authService.login(username, password)
@@ -29,16 +34,14 @@ export function LoginView() {
         }
     }
 
-    const handleLogout = async () => {
-        await authService.logout()
-    }
-
     return (
-        <>
-            <input value={username} onChange={handleUsername}></input>
-            <input value={password} onChange={handlePassword}></input>
-            <button onClick={handleLogin}>Click me</button>
-            <button onClick={handleLogout}>Dom't click me</button>
-        </>
+        <section className="small-container margin-top">
+            <input placeholder="Username" type="text" value={username} onChange={handleUsername}></input>
+            <input placeholder="Password" type={showPass ? 'text' : 'password'} value={password} onChange={handlePassword}></input>
+            <label>
+                <input checked={showPass} onChange={handleCheckbox} type="checkbox" /> Show Password
+            </label>
+            <button className="full-button" onClick={handleLogin}>Login</button>
+        </section>
     )
 }
