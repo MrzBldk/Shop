@@ -4,10 +4,11 @@ import Product from "features/products/product"
 import ProductAPI from "features/products/productAPI"
 import { useEffect, useState } from "react"
 import { Toaster, toast } from "react-hot-toast"
-import { Link, useParams } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
 
 export function ProductView() {
-    let { id } = useParams()
+    const { id } = useParams()
+    const navigate = useNavigate()
 
     const [product, setProduct] = useState(new Product())
     const isAvailble = product.availableStock > 0 && !product.isArchived
@@ -25,6 +26,9 @@ export function ProductView() {
     const handleButtonClick = async () => {
 
         const basketId = await authService.getUserId()
+
+        console.log(basketId)
+        if (!basketId) navigate(`/login?returnUrl=product/${id}`)
 
         const responce = await fetch(process.env.REACT_APP_API_URL + '/api/agg/basket', {
             method: "POST",

@@ -86,7 +86,7 @@ namespace EventBusRabbitMQ
 
             byte[] body = JsonSerializer.SerializeToUtf8Bytes(@event, @event.GetType(), new JsonSerializerOptions
             {
-                WriteIndented = true
+                WriteIndented = false
             });
 
             policy.Execute(() =>

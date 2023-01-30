@@ -1,30 +1,21 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { Counter } from 'features/counter/Counter';
-import { CatalogView } from 'views/CatalogView';
-import { ProductView } from 'views/ProductView';
-import { StoreView } from 'views/StoreView';
-import { Login } from 'components/auth/Login';
-import { StoresListView } from 'views/StoresListView';
 import { Navbar } from 'components/Navbar';
-import { Logout } from 'components/auth/Logout';
-import { OrdersListView } from 'views/OrdersListView';
-import { BasketView } from 'views/BasketView';
-import { MakeOrderView } from 'views/MakeOrderView';
+import appRoutes from 'appRoutes';
+import { AuthorizeRoute } from 'components/auth/AuthorizeRoute';
 function App() {
   return (
     <BrowserRouter>
       <Navbar />
       <Routes>
-        <Route path='/' element={<CatalogView />} />
-        <Route path='/product/:id' element={<ProductView />} />
-        <Route path='/stores' element={<StoresListView />} />
-        <Route path='/store/:id' element={<StoreView />} />
-        <Route path='/counter' element={<Counter />} />
-        <Route path='/login' element={<Login />} />
-        <Route path='/logout' element={<Logout />} />
-        <Route path='/orders' element={<OrdersListView />} />
-        <Route path='/basket' element={<BasketView />} />
-        <Route path='/makeOrder' element={<MakeOrderView />} />
+        {appRoutes.map((route, index) => {
+          const { element, path, requireAuth } = route
+          return <Route key={index} path={path}
+            element={requireAuth ?
+              <AuthorizeRoute element={element} path={path.substring(1)} /> :
+              element
+            }
+          />
+        })}
       </Routes>
     </BrowserRouter>
   );
