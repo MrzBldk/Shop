@@ -51,6 +51,28 @@ async function fetchManagedStore() {
     
 }
 
+async function createStore(name: string, description?: string){
+    const token = await authService.getToken()
+    const responce = await fetch(URL,{
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            name,
+            description
+        })
+    })
+
+    if(responce.ok){
+        return Promise.resolve()
+    } else{
+        console.log(await responce.text())
+        return Promise.reject(await responce.text())
+    }
+}
+
 async function blockStore(id: string){
 
     const token = await authService.getToken()
@@ -88,6 +110,6 @@ async function unblockStore(id: string){
 }
 
 
-const storeAPI = { fetchStores, fetchStore, fetchManagedStore, blockStore, unblockStore }
+const storeAPI = { fetchStores, fetchStore, fetchManagedStore, blockStore, unblockStore, createStore }
 
 export default storeAPI

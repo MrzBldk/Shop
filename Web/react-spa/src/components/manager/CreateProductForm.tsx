@@ -58,7 +58,16 @@ export function CreateProductForm({ storeId }: { storeId: string }) {
                 },
                 body: formdata
             })
-            toast.success('Order created')
+            toast.success('Product created')
+            setState({
+                name: '',
+                description: '',
+                typeId: types[0].id,
+                brandId: brands[0].id,
+                price: '',
+                availableStock: ''
+            })
+            ref.current!.files = null
         } catch {
             toast.error('Product was not created')
         }

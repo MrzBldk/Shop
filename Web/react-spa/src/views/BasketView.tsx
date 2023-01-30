@@ -42,7 +42,7 @@ export function BasketView() {
     }
 
     return (
-        <section className="container">
+        <section className="small-container">
             {!basket ?
                 <Spinner text="Loading..."></Spinner> :
                 basket.items.length === 0 ?
