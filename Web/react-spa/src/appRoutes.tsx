@@ -8,6 +8,7 @@ import { OrdersListView } from 'views/OrdersListView';
 import { BasketView } from 'views/BasketView';
 import { MakeOrderView } from 'views/MakeOrderView';
 import { AdminView } from 'views/AdminView';
+import { ManagerView } from 'views/ManagerView';
 
 const appRoutes = [
     {
@@ -64,6 +65,11 @@ const appRoutes = [
         path: '/admin',
         requireAuth: true,
         element: <AdminView />
+    },
+    {
+        path: '/manager',
+        requireAuth: true,
+        element: <ManagerView />
     }
 ]
 

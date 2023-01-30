@@ -15,7 +15,6 @@ export function MakeOrderView() {
 
     const makeOrder = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
-        console.log(state)
         const token = await authService.getToken()
         const id = await authService.getUserId()
         const url = process.env.REACT_APP_API_URL + `/api/agg/order/create/${id}`

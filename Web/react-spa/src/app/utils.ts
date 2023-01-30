@@ -25,3 +25,7 @@ export function formatOrderStatus(status: string) {
     }
     return formatter[status];
 }
+
+export function getPictureUrl(uri: string) {
+    return process.env.REACT_APP_API_URL + '/api/c/picture/' + uri
+}

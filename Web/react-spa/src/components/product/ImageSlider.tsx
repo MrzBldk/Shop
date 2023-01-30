@@ -1,3 +1,4 @@
+import { getPictureUrl } from 'app/utils';
 import { useState } from 'react';
 import { FaArrowAltCircleRight, FaArrowAltCircleLeft } from 'react-icons/fa';
 import styles from './ImageSlider.module.scss'
@@ -29,7 +30,7 @@ export function ImageSlider({ slides }: { slides: Array<string> }) {
                         key={index}
                     >
                         {index === current && (
-                            <img className={styles['image-slider__image']} src={slide} alt='product' />
+                            <img className={styles['image-slider__image']} src={getPictureUrl(slide)} alt='product' />
                         )}
                     </div>
                 );
