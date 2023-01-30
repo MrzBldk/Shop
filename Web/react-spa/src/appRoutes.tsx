@@ -7,6 +7,7 @@ import { Logout } from 'components/auth/Logout';
 import { OrdersListView } from 'views/OrdersListView';
 import { BasketView } from 'views/BasketView';
 import { MakeOrderView } from 'views/MakeOrderView';
+import { AdminView } from 'views/AdminView';
 
 const appRoutes = [
     {
@@ -58,6 +59,11 @@ const appRoutes = [
         path: '/makeOrder',
         requireAuth: true,
         element: <MakeOrderView />
+    },
+    {
+        path: '/admin',
+        requireAuth: true,
+        element: <AdminView />
     }
 ]
 

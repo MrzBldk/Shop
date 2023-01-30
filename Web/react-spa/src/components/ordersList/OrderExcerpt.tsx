@@ -6,7 +6,7 @@ import { formatOrderStatus } from "app/utils";
 export function OrderExcerpt({ order }: { order: Order }) {
     const date = new Date(order.orderDate)
     return (
-        <article className={styles['orders-list__store-excerpt']}>
+        <article className={styles['orders-list__order-excerpt']}>
             <h3>Order made on {date.toLocaleString()}</h3>
             <div className={styles['orders-list__grid']}>
                 <div>

@@ -41,5 +41,21 @@ async function fetchUserOrders(userId: string) {
     }
 }
 
-const orderAPI = {fetchOrders, fetchUserOrders}
+async function changeOrderStatus(id: string, status: string) {
+    const token = await authService.getToken()
+    const responce = await fetch(URL + `/${id}/${status}`, {
+        method: 'PUT',
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
+
+    if (responce.ok) {
+        return Promise.resolve()
+    } else {
+        return Promise.reject(await responce.text())
+    }
+}
+
+const orderAPI = { fetchOrders, fetchUserOrders, changeOrderStatus }
 export default orderAPI

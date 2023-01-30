@@ -1,3 +1,4 @@
+import authService from "app/authService";
 import Store from "./store";
 
 const URL: string = process.env.REACT_APP_API_URL + '/api/s/store'
@@ -28,6 +29,43 @@ async function fetchStore(id: string) {
     }
 }
 
-const storeAPI = { fetchStores, fetchStore }
+async function blockStore(id: string){
+
+    const token = await authService.getToken()
+
+    const responce = await fetch(URL + `/${id}/block`,{
+        method: 'PUT',
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
+
+    if(responce.ok){
+        return Promise.resolve()
+    } else{
+        return Promise.reject(await responce.text())
+    }
+}
+
+async function unblockStore(id: string){
+
+    const token = await authService.getToken()
+
+    const responce = await fetch(URL + `/${id}/unblock`,{
+        method: 'PUT',
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
+
+    if(responce.ok){
+        return Promise.resolve()
+    } else{
+        return Promise.reject(await responce.text())
+    }
+}
+
+
+const storeAPI = { fetchStores, fetchStore, blockStore, unblockStore }
 
 export default storeAPI
