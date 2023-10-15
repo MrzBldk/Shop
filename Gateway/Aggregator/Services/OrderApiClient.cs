@@ -23,7 +23,7 @@ namespace Aggregator.Services
             HttpResponseMessage responce = await _httpClient.PostAsync(url, content);
             responce.EnsureSuccessStatusCode();
 
-            return await responce.Content.ReadAsStringAsync();
+            return (await responce.Content.ReadFromJsonAsync<Guid>()).ToString();
         }
 
         public async Task AddOrderItems(BasketData basketData, string orderId)
@@ -40,7 +40,7 @@ namespace Aggregator.Services
                     Units = item.Quantity
                 });
             }
-            StringContent content = new(JsonConvert.SerializeObject(orderItems));
+            StringContent content = new(JsonConvert.SerializeObject(orderItems), System.Text.Encoding.UTF8, "application/json");
             HttpResponseMessage responce = await _httpClient.PostAsync(url, content);
             responce.EnsureSuccessStatusCode();
         }

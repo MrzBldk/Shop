@@ -2,6 +2,7 @@
 using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Store.Application.Common.Exceptions;
 using Store.Application.Common.Interfaces;
 
 namespace Store.Application.Stores.Queries.GetStore
@@ -27,8 +28,13 @@ namespace Store.Application.Stores.Queries.GetStore
             var dto = await _context.Stores
                 .AsNoTracking()
                 .ProjectTo<StoreDTO>(_mapper.ConfigurationProvider)
-                .FirstAsync( s=> s.Id == request.Id, cancellationToken);
-            
+                .FirstOrDefaultAsync( s=> s.Id == request.Id, cancellationToken);
+
+            if (dto is null)
+            {
+                throw new NotFoundException();
+            }
+
             return new()
             {
                 Id = dto.Id,

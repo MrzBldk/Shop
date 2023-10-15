@@ -34,11 +34,11 @@ namespace Catalog.API.Controllers
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Post(PicturesViewModel files, Guid id, 
+        public async Task<IActionResult> Post([FromForm] PicturesViewModel files, Guid id,
             [FromServices] IProductService productService)
         {
             ProductDTO product = await productService.GetById(id);
-            if (product is null) 
+            if (product is null)
                 return NotFound(new { message = "Product not found" });
 
             if (files.FilesNames.Count != files.FormFiles.Count)
@@ -52,10 +52,17 @@ namespace Catalog.API.Controllers
                     using FileStream stream = new(path, FileMode.Create);
                     files.FormFiles[i].CopyTo(stream);
                 }
-                
-                product.PicturesUris = product.PicturesUris.Concat(files.FilesNames).ToArray();
+
+                if (product.PicturesUris[0] == "")
+                {
+                    product.PicturesUris = files.FilesNames.ToArray();
+                }
+                else
+                {
+                    product.PicturesUris = product.PicturesUris.Concat(files.FilesNames).ToArray();
+                }
                 await productService.Save(product);
-                
+
                 return Ok();
             }
 

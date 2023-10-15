@@ -5,6 +5,7 @@ using Store.Application.Stores.Commands.CreateStore;
 using Store.Application.Stores.Commands.DeleteStore;
 using Store.Application.Stores.Commands.UnblockStore;
 using Store.Application.Stores.Commands.UpdateStore;
+using Store.Application.Stores.Queries.GetManagedStore;
 using Store.Application.Stores.Queries.GetStore;
 using Store.Application.Stores.Queries.GetStores;
 
@@ -28,6 +29,15 @@ namespace Store.API.Controllers
         {
             return Ok(await Mediator.Send(new GetStoreQuery { Id = id }));
         }
+
+        [HttpGet("Managed")]
+        [Authorize(Roles = "StoreManager")]
+        [ProducesResponseType(typeof(StoreViewModel), StatusCodes.Status200OK)]
+        public async Task<ActionResult<StoreViewModel>> GetManaged()
+        {
+            return Ok(await Mediator.Send(new GetManagedStoreQuery()));
+        }
+
 
         [HttpPost]
         [Authorize(Roles = "StoreManager")]

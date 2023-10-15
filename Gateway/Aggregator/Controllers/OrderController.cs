@@ -30,6 +30,10 @@ namespace Aggregator.Controllers
             {
                 return BadRequest($"No basket found for id {basketId}");
             }
+            if(basket.Items.Count== 0)
+            {
+                return BadRequest("Basket is empty");
+            }
 
             string orderId = await _orderClient.CreateOrder(orderData);
 

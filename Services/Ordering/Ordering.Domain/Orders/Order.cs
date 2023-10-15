@@ -67,20 +67,23 @@ namespace Ordering.Domain.Orders
 
         public void SetAwaitingValidationStatus()
         {
-            if (_orderStatusId == OrderStatus.Submitted.Id)
+            if (_orderStatusId != OrderStatus.Submitted.Id)
             {
-                _orderStatusId = OrderStatus.AwaitingValidation.Id;
-                OrderStatus = OrderStatus.From(_orderStatusId);
+                StatusChangeException(OrderStatus.AwaitingValidation);
             }
+            _orderStatusId = OrderStatus.AwaitingValidation.Id;
+            OrderStatus = OrderStatus.From(_orderStatusId);
         }
 
         public void SetStockConfirmedStatus()
         {
-            if (_orderStatusId == OrderStatus.AwaitingValidation.Id)
+            if (_orderStatusId != OrderStatus.AwaitingValidation.Id)
             {
-                _orderStatusId = OrderStatus.StockConfirmed.Id;
-                OrderStatus = OrderStatus.From(_orderStatusId);
+                StatusChangeException(OrderStatus.StockConfirmed);
+
             }
+            _orderStatusId = OrderStatus.StockConfirmed.Id;
+            OrderStatus = OrderStatus.From(_orderStatusId);
         }
 
         public void SetShippedStatus()
@@ -95,8 +98,7 @@ namespace Ordering.Domain.Orders
 
         public void SetCancelledStatus()
         {
-            if (_orderStatusId == OrderStatus.Shipped.Id ||
-                _orderStatusId == OrderStatus.AwaitingValidation.Id)
+            if (_orderStatusId != OrderStatus.AwaitingValidation.Id)
             {
                 StatusChangeException(OrderStatus.Cancelled);
             }
