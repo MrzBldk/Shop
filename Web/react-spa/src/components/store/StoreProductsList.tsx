@@ -5,7 +5,7 @@ import { ProductExcerpt } from "../catalog/ProductExcerpt"
 import { Spinner } from "../Spinner"
 import styles from './StoreProductsList.module.scss'
 
-export function StoreProductsList({storeId} : {storeId: string}) {
+export function StoreProductsList({ storeId }: { storeId: string }) {
 
     const dispatch = useAppDispatch()
     const products = useAppSelector((state) => selectProductsByStoreId(state, storeId))

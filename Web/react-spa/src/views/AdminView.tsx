@@ -15,7 +15,8 @@ export function AdminView() {
             dispatch(fetchOrdersAsync())
         }
 
-        if (ordersStatus === 'idle' || ordersRepresentativeness !== 'all') {
+        if (ordersStatus === 'idle' ||
+            (ordersRepresentativeness !== 'all' && ordersStatus !== "failed")) {
             fetch()
         }
 

@@ -10,6 +10,6 @@ export function Logout() {
         authService.logout()
         navigate('/')
     })
-    
+
     return <></>
 }

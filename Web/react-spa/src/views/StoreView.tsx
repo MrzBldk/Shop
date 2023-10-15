@@ -22,7 +22,7 @@ export function StoreView() {
         <section className="container">
             <h2 className="text-center">{store.name}</h2>
             <h3 className="text-center">{store.description}</h3>
-            <StoreProductsList storeId={id!}/>
+            <StoreProductsList storeId={id!} />
         </section>
     )
 }

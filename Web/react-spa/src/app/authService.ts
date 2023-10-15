@@ -12,7 +12,7 @@ class AuthService {
             client_id: "spa",
             redirect_uri: "http://localhost:3000",
             client_secret: process.env.REACT_APP_CLIENT_SECRET,
-            scope: 'spa',
+            scope: 'spa aggregator ordering_api catalog_api store_api',
             userStore: new WebStorageStateStore({ store: localStorage })
         };
         this.userManager = new UserManager(settings);

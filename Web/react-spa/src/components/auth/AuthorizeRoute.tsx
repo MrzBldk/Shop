@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 
 export function AuthorizeRoute({ element, path }: { element: JSX.Element, path: string }) {
-    
+
     const [ready, setReady] = useState(false)
     const [authenticated, setAuthenticated] = useState(false)
 
@@ -24,7 +24,7 @@ export function AuthorizeRoute({ element, path }: { element: JSX.Element, path: 
         populateAuthenticationState()
         return () => authService.unsubscribe(subscription)
     })
-    
+
     return (
         <>
             {!ready ?

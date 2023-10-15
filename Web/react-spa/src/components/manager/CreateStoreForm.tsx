@@ -15,10 +15,10 @@ export function CreateStoreForm() {
 
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
-        try{
+        try {
             await storeAPI.createStore(name, description)
             toast.success('Store created')
-        } catch{
+        } catch {
             toast.error('Store was not created')
         }
     }
@@ -28,7 +28,7 @@ export function CreateStoreForm() {
             <label htmlFor="name">Name</label>
             <input onChange={handleName} required value={name} type='text' placeholder="Name" />
             <label htmlFor="description">Description</label>
-            <input onChange={handleDescription} required value={description} type='text' placeholder="text" />
+            <input onChange={handleDescription} required value={description} type='text' placeholder="Description" />
             <input type='submit'></input>
         </form>
     )

@@ -7,21 +7,21 @@ import storesReducer from 'features/stores/storesSlice'
 import ordersReducer from 'features/orders/ordersSlice'
 
 export const store = configureStore({
-  reducer: {
-    counter: counterReducer,
-    products: productsReducer,
-    brands: brandsReducer,
-    types: typesReducer,
-    stores: storesReducer,
-    orders: ordersReducer,
-  },
+    reducer: {
+        counter: counterReducer,
+        products: productsReducer,
+        brands: brandsReducer,
+        types: typesReducer,
+        stores: storesReducer,
+        orders: ordersReducer,
+    },
 })
 
 export type AppDispatch = typeof store.dispatch;
 export type RootState = ReturnType<typeof store.getState>;
 export type AppThunk<ReturnType = void> = ThunkAction<
-  ReturnType,
-  RootState,
-  unknown,
-  Action<string>
+    ReturnType,
+    RootState,
+    unknown,
+    Action<string>
 >
