@@ -1,0 +1,59 @@
+﻿{
+  "IdentityData": {
+    "Roles": [
+      {
+        "Name": "ShopAdmin"
+      },
+      {
+        "Name": "StoreManager"
+      },
+      {
+        "Name": "ShopClient"
+      }
+    ],
+    "Users": [
+      {
+        "Username": "admin",
+        "Password": "Pa$$word123",
+        "Email": "anton19lityagin@gmail.com",
+        "Roles": [
+          "ShopAdmin"
+        ],
+        "Claims": [
+          {
+            "Type": "name",
+            "Value": "admin"
+          }
+        ]
+      },
+      {
+        "Username": "manager",
+        "Password": "Pa$$word123",
+        "Email": "1@gmail.com",
+        "Roles": [
+          "StoreManager"
+        ],
+        "Claims": [
+          {
+            "Type": "name",
+            "Value": "manager"
+          }
+        ]
+      },
+      {
+        "Username": "user",
+        "Password": "Pa$$word123",
+        "Email": "2@gmail.com",
+        "Roles": [
+          "ShopClient"
+        ],
+        "Claims": [
+          {
+            "Type": "name",
+            "Value": "user"
+          }
+        ]
+      }
+    ]
+  }
+}

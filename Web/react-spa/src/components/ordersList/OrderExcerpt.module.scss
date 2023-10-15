@@ -1,0 +1,11 @@
+.orders-list__order-excerpt {
+    border: 4px solid #764abc;
+    border-radius: 1em;
+    padding: 1em;
+    margin-top: 1em;
+}
+
+.orders-list__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}

@@ -1,0 +1,320 @@
+﻿{
+  "IdentityServerData": {
+    "IdentityResources": [
+      {
+        "Name": "roles",
+        "Enabled": true,
+        "DisplayName": "Roles",
+        "UserClaims": [
+          "role"
+        ]
+      },
+      {
+        "Name": "openid",
+        "Enabled": true,
+        "Required": true,
+        "DisplayName": "Your user identifier",
+        "UserClaims": [
+          "sub"
+        ]
+      },
+      {
+        "Name": "profile",
+        "Enabled": true,
+        "DisplayName": "User profile",
+        "Description": "Your user profile information (first name, last name, etc.)",
+        "Emphasize": true,
+        "UserClaims": [
+          "name",
+          "family_name",
+          "given_name",
+          "middle_name",
+          "nickname",
+          "preferred_username",
+          "profile",
+          "picture",
+          "website",
+          "gender",
+          "birthdate",
+          "zoneinfo",
+          "locale",
+          "updated_at"
+        ]
+      },
+      {
+        "Name": "email",
+        "Enabled": true,
+        "DisplayName": "Your email address",
+        "Emphasize": true,
+        "UserClaims": [
+          "email",
+          "email_verified"
+        ]
+      },
+      {
+        "Name": "address",
+        "Enabled": true,
+        "DisplayName": "Your address",
+        "Emphasize": true,
+        "UserClaims": [
+          "address"
+        ]
+      }
+    ],
+    "ApiScopes": [
+      {
+        "Name": "shop_identity_admin_api",
+        "DisplayName": "shop_identity_admin_api",
+        "Required": true,
+        "UserClaims": [
+          "role",
+          "name"
+        ]
+      },
+      {
+        "Name": "catalog_api",
+        "DisplayName": "catalog_api",
+        "UserClaims": [
+          "role",
+          "name"
+        ]
+      },
+      {
+        "Name": "store_api",
+        "DisplayName": "store_api",
+        "UserClaims": [
+          "role",
+          "name"
+        ]
+      },
+      {
+        "Name": "ordering_api",
+        "DisplayName": "ordering_api",
+        "UserClaims": [
+          "role",
+          "name"
+        ]
+      },
+      {
+        "Name": "aggregator",
+        "DisplayName": "aggregator",
+        "UserClaims": [
+          "role",
+          "name"
+        ]
+      },
+      {
+        "Name": "spa",
+        "DisplayName": "spa",
+        "UserClaims": [
+          "role",
+          "name"
+        ]
+      }
+    ],
+    "ApiResources": [
+      {
+        "Name": "catalog_api",
+        "Scopes": [
+          "catalog_api"
+        ]
+      },
+      {
+        "Name": "store_api",
+        "Scopes": [
+          "store_api"
+        ]
+      },
+      {
+        "Name": "ordering_api",
+        "Scopes": [
+          "ordering_api"
+        ]
+      },
+      {
+        "Name": "aggregator",
+        "Scopes": [
+          "aggregator"
+        ]
+      },
+      {
+        "Name": "shop_identity_admin_api",
+        "Scopes": [
+          "shop_identity_admin_api"
+        ]
+      },
+      {
+        "Name": "spa",
+        "Scopes": [
+          "spa"
+        ]
+      }
+    ],
+    "Clients": [
+      {
+        "ClientId": "shop_identity_admin",
+        "ClientName": "shop_identity_admin",
+        "ClientUri": "http://localhost:9000",
+        "AllowedGrantTypes": [
+          "authorization_code"
+        ],
+        "RequirePkce": true,
+        "ClientSecrets": [
+          {
+            "Value": "shop_admin_client_secret"
+          }
+        ],
+        "RedirectUris": [
+          "http://localhost:9000/signin-oidc"
+        ],
+        "FrontChannelLogoutUri": "http://localhost:9000/signout-oidc",
+        "PostLogoutRedirectUris": [
+          "http://localhost:9000/signout-callback-oidc"
+        ],
+        "AllowedCorsOrigins": [
+          "http://localhost:9000"
+        ],
+        "AllowedScopes": [
+          "openid",
+          "email",
+          "profile",
+          "roles"
+        ]
+      },
+      {
+        "ClientId": "shop_identity_admin_api_swaggerui",
+        "ClientName": "shop_identity_admin_api_swaggerui",
+        "AllowedGrantTypes": [
+          "authorization_code"
+        ],
+        "RequireClientSecret": false,
+        "RequirePkce": true,
+        "RedirectUris": [
+          "http://localhost:9001/swagger/oauth2-redirect.html"
+        ],
+        "AllowedScopes": [
+          "shop_identity_admin_api"
+        ],
+        "AllowedCorsOrigins": [
+          "http://localhost:9001"
+        ]
+      },
+      {
+        "ClientId": "catalog_api",
+        "ClientName": "catalog_api",
+        "AllowedGrantTypes": [
+          "authorization_code"
+        ],
+        "RequireClientSecret": true,
+        "RequirePkce": true,
+        "ClientSecrets": [
+          {
+            "Value": "secret"
+          }
+        ],
+        "RedirectUris": [
+          "http://localhost:8000/swagger/oauth2-redirect.html"
+        ],
+        "AllowedScopes": [
+          "catalog_api"
+        ],
+        "AllowedCorsOrigins": [
+          "http://localhost:8000"
+        ]
+      },
+      {
+        "ClientId": "ordering_api",
+        "ClientName": "ordering_api",
+        "AllowedGrantTypes": [
+          "authorization_code"
+        ],
+        "RequireClientSecret": true,
+        "RequirePkce": true,
+        "ClientSecrets": [
+          {
+            "Value": "secret"
+          }
+        ],
+        "RedirectUris": [
+          "http://localhost:8002/swagger/oauth2-redirect.html"
+        ],
+        "AllowedScopes": [
+          "ordering_api"
+        ],
+        "AllowedCorsOrigins": [
+          "http://localhost:8002"
+        ]
+      },
+      {
+        "ClientId": "store_api",
+        "ClientName": "store_api",
+        "AllowedGrantTypes": [
+          "authorization_code"
+        ],
+        "RequireClientSecret": true,
+        "RequirePkce": true,
+        "ClientSecrets": [
+          {
+            "Value": "secret"
+          }
+        ],
+        "RedirectUris": [
+          "http://localhost:8001/swagger/oauth2-redirect.html"
+        ],
+        "AllowedScopes": [
+          "store_api"
+        ],
+        "AllowedCorsOrigins": [
+          "http://localhost:8001"
+        ]
+      },
+      {
+        "ClientId": "aggregator",
+        "ClientName": "aggregator",
+        "AllowedGrantTypes": [
+          "authorization_code"
+        ],
+        "RequireClientSecret": true,
+        "RequirePkce": true,
+        "ClientSecrets": [
+          {
+            "Value": "secret"
+          }
+        ],
+        "RedirectUris": [
+          "http://localhost:5001/swagger/oauth2-redirect.html"
+        ],
+        "AllowedScopes": [
+          "aggregator",
+          "ordering_api"
+        ],
+        "AllowedCorsOrigins": [
+          "http://localhost:5001"
+        ]
+      },
+      {
+        "ClientId": "spa",
+        "ClientName": "spa",
+        "AllowedGrantTypes": [
+          "password"
+        ],
+        "RequireClientSecret": true,
+        "ClientSecrets": [
+          {
+            "Value": "secret"
+          }
+        ],
+        "AllowedScopes": [
+          "spa",
+          "aggregator",
+          "store_api",
+          "catalog_api",
+          "ordering_api"
+        ],
+        "AllowedCorsOrigins": [
+          "http://localhost:3000"
+        ]
+      }
+    ]
+  }
+}

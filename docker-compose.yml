@@ -1,0 +1,213 @@
+version: "3.8"
+
+services:
+  catalog.api:
+    image: ${DOCKER_REGISTRY-}catalogapi
+    ports:
+      - "8000:80"
+    environment:
+      - DockerConfiguration__UpdateCaCertificate=true
+    build:
+      context: .
+      dockerfile: Services/Catalog/Catalog.API/Dockerfile
+    depends_on:
+      - catalogdb
+
+  catalogdb:
+    image: mcr.microsoft.com/mssql/server:2017-latest 
+    container_name: catalog-db
+    environment:
+      - SA_PASSWORD=Pass@word
+      - ACCEPT_EULA=Y
+    ports:
+      - "1433:1433"
+    volumes:
+      - catalog-data:/var/opt/mssql/data
+  
+  store.api:
+    image: ${DOCKER_REGISTRY-}storeapi
+    ports:
+      - "8001:80"
+    build:
+      context: .
+      dockerfile: Services/Store/Store.API/Dockerfile
+    depends_on:
+      - storedb
+      - rabbitmq
+
+  storedb:
+    image: mcr.microsoft.com/mssql/server:2017-latest
+    container_name: store-db
+    environment:
+      - SA_PASSWORD=Pass@word
+      - ACCEPT_EULA=Y
+    ports:
+      - "1434:1433"
+    volumes:
+      - store-data:/var/opt/mssql/data
+
+  ordering.api:
+    image: ${DOCKER_REGISTRY-}orderingapi
+    ports:
+      - "8002:80"
+    build:
+      context: .
+      dockerfile: Services/Ordering/Ordering.API/Dockerfile
+    depends_on:
+     - orderingdb
+     - rabbitmq
+     
+  orderingdb:
+    image: mcr.microsoft.com/mssql/server:2017-latest 
+    container_name: ordering-db
+    environment:
+      - SA_PASSWORD=Pass@word
+      - ACCEPT_EULA=Y
+    ports:
+      - "1435:1433"
+    volumes:
+      - ordering-data:/var/opt/mssql/data
+
+  basket.api:
+    image: ${DOCKER_REGISTRY-}basketapi
+    ports:
+      - "8003:80"
+    build:
+      context: .
+      dockerfile: Services/Basket/Basket.API/Dockerfile
+    depends_on:
+     - basketdb
+
+  basketdb:
+    image: redis:alpine
+    container_name: basket-db
+    ports:
+      - "6379:6379"
+    volumes:
+      - basket-data:/data
+  
+  identity.admin:
+    image: '${DOCKER_REGISTRY-}skoruba-identityserver4-admin'
+    ports:
+      - "9000:80"
+    build:
+      context: .
+      dockerfile: Services/Identity/src/Identity.Admin/Dockerfile
+    container_name: skoruba-identityserver4-admin
+    environment:
+      - 'ConnectionStrings__ConfigurationDbConnection=Server=identitydb;Database=IdentityServer4Admin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true'
+      - 'ConnectionStrings__PersistedGrantDbConnection=Server=identitydb;Database=IdentityServer4Admin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true'
+      - 'ConnectionStrings__IdentityDbConnection=Server=identitydb;Database=IdentityServer4Admin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true'
+      - 'ConnectionStrings__AdminLogDbConnection=Server=identitydb;Database=IdentityServer4Admin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true'
+      - 'ConnectionStrings__AdminAuditLogDbConnection=Server=identitydb;Database=IdentityServer4Admin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true'
+      - 'ConnectionStrings__DataProtectionDbConnection=Server=identitydb;Database=IdentityServer4Admin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true'
+      - 'AdminConfiguration__IdentityAdminBaseUrl=http://localhost:9000'
+      - 'AdminConfiguration__IdentityAdminRedirectUri=http://localhost:9000/signin-oidc'
+      - 'AdminConfiguration__IdentityServerBaseUrl=http://host.docker.internal:9002'
+      - AdminConfiguration__RequireHttpsMetadata=false
+      - 'IdentityServerData__Clients__0__ClientUri=http://localhost:9000'
+      - 'IdentityServerData__Clients__0__RedirectUris__0=http://localhost:9000/signin-oidc'
+      - 'IdentityServerData__Clients__0__FrontChannelLogoutUri=http://localhost:9000/signin-oidc'
+      - 'IdentityServerData__Clients__0__PostLogoutRedirectUris__0=http://localhost:9000/signout-callback-oidc'
+      - 'IdentityServerData__Clients__0__AllowedCorsOrigins__0=http://localhost:9000'
+      - 'IdentityServerData__Clients__1__RedirectUris__0=http://localhost:9001/swagger/oauth2-redirect.html'
+      - 'Serilog__WriteTo__1__Args__connectionString=Server=identitydb;Database=IdentityServer4Admin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true'
+      - ASPNETCORE_ENVIRONMENT=Development
+    command: dotnet Identity.Admin.dll /seed
+    depends_on:
+      - identitydb
+      - identity.sts.identity
+    volumes:
+      - './Services/Identity/shared/serilog.json:/app/serilog.json'
+      - './Services/Identity/shared/identitydata.json:/app/identitydata.json'
+      - './Services/Identity/shared/identityserverdata.json:/app/identityserverdata.json'
+  
+  identity.admin.api:
+    image: '${DOCKER_REGISTRY-}skoruba-identityserver4-admin-api'
+    ports:
+      - "9001:80"
+    build:
+      context: .
+      dockerfile: Services/Identity/src/Identity.Admin.Api/Dockerfile
+    container_name: skoruba-identityserver4-admin-api
+    environment:
+      - AdminApiConfiguration__RequireHttpsMetadata=false
+      - 'AdminApiConfiguration__ApiBaseUrl=http://localhost:9001'
+      - 'AdminApiConfiguration__IdentityServerBaseUrl=http://localhost:9002'
+      - 'ConnectionStrings__ConfigurationDbConnection=Server=identitydb;Database=IdentityServer4Admin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true'
+      - 'ConnectionStrings__PersistedGrantDbConnection=Server=identitydb;Database=IdentityServer4Admin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true'
+      - 'ConnectionStrings__IdentityDbConnection=Server=identitydb;Database=IdentityServer4Admin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true'
+      - 'ConnectionStrings__AdminLogDbConnection=Server=identitydb;Database=IdentityServer4Admin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true'
+      - 'ConnectionStrings__AdminAuditLogDbConnection=Server=identitydb;Database=IdentityServer4Admin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true'
+      - 'ConnectionStrings__DataProtectionDbConnection=Server=identitydb;Database=IdentityServer4Admin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true'
+      - ASPNETCORE_ENVIRONMENT=Development
+    volumes:
+      - './Services/Identity/shared/serilog.json:/app/serilog.json'
+  
+  identity.sts.identity:
+    image: '${DOCKER_REGISTRY-}skoruba-identityserver4-sts-identity'
+    ports:
+      - "9002:80"
+    build:
+      context: .
+      dockerfile: Services/Identity/src/Identity.STS.Identity/Dockerfile
+    container_name: skoruba-identityserver4-sts-identity
+    environment:
+      - 'ConnectionStrings__ConfigurationDbConnection=Server=identitydb;Database=IdentityServer4Admin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true'
+      - 'ConnectionStrings__PersistedGrantDbConnection=Server=identitydb;Database=IdentityServer4Admin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true'
+      - 'ConnectionStrings__IdentityDbConnection=Server=identitydb;Database=IdentityServer4Admin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true'
+      - 'ConnectionStrings__DataProtectionDbConnection=Server=identitydb;Database=IdentityServer4Admin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true'
+      - 'AdminConfiguration__IdentityAdminBaseUrl=http://localhost:9000'
+      - 'IdentityServerOptions__IssuerUri=http://localhost:9002'
+      - IdentityServerOptions__Events__RaiseErrorEvents=true
+      - IdentityServerOptions__Events__RaiseInformationEvents=true
+      - IdentityServerOptions__Events__RaiseFailureEvents=true
+      - IdentityServerOptions__Events__RaiseSuccessEvents=true
+      - DockerConfiguration__UpdateCaCertificate=true
+      - ASPNETCORE_ENVIRONMENT=Development
+    depends_on:
+      - identitydb
+    volumes:
+      - './Services/Identity/shared/serilog.json:/app/serilog.json'
+
+  identitydb:
+    image: 'mcr.microsoft.com/mssql/server:2017-CU20-ubuntu-16.04'
+    ports:
+      - '7900:1433'
+    container_name: skoruba-identityserver4-db
+    environment:
+      SA_PASSWORD: '${DB_PASSWORD:-Password_123}'
+      ACCEPT_EULA: 'Y'
+    volumes:
+      - 'identity-data:/var/opt/mssql'
+
+  gateway:
+    image: ${DOCKER_REGISTRY-}gateway
+    ports:
+      - "5000:80"
+    build:
+      context: .
+      dockerfile: Gateway/Gateway/Dockerfile
+
+  aggregator:
+    image: ${DOCKER_REGISTRY-}aggregator
+    ports:
+      - "5001:80"
+    build:
+      context: .
+      dockerfile: Gateway/Aggregator/Dockerfile
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: rabbitmq
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+
+volumes:
+  catalog-data:
+  store-data:
+  ordering-data:
+  basket-data:
+  identity-data:
+    driver: local
